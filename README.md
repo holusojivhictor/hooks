@@ -29,6 +29,7 @@ _\*Hooks works on iOS, Android, and Web_
 
 ---
 
+### [License: MIT](LICENSE.md)
 
 [coverage_badge]: coverage_badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
