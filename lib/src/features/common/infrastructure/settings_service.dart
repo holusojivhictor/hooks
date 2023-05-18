@@ -10,10 +10,11 @@ class SettingsService {
   SettingsService(this._logger);
 
   final _appThemeKey = 'AppTheme';
-  final _appLanguageKey = 'AppLanguageKey';
+  final _appLanguageKey = 'AppLanguage';
   final _isFirstInstallKey = 'FirstInstall';
-  final _doubleBackToCloseKey = 'DoubleBackToCloseKey';
-  final _autoThemeModeKey = 'AutoThemeModeKey';
+  final _doubleBackToCloseKey = 'DoubleBackToClose';
+  final _autoThemeModeKey = 'AutoThemeMode';
+  final _filterKeywordsKey = 'FilterKeywords';
 
   bool _initialized = false;
 
@@ -89,6 +90,28 @@ class SettingsService {
     _logger.info(runtimeType, 'Settings were initialized successfully');
   }
 
+  bool hasRead(int storyId) {
+    final key = _getHasReadKey(storyId);
+    final val = _prefs.getBool(key);
+
+    if (val == null) return false;
+
+    return true;
+  }
+
+  List<String> get filterKeywords => _prefs.getStringList(_filterKeywordsKey) ?? <String>[];
+
+  void updateFilterKeywords(List<String> keywords) => _prefs.setStringList(_filterKeywordsKey, keywords);
+
+  void updateHasRead(int storyId) => _prefs.setBool(_getHasReadKey(storyId), true);
+
+  void clearAllReadStories() {
+    final allKeys = _prefs.getKeys().where((String e) => e.contains('hasRead'));
+    for (final key in allKeys) {
+      _prefs.remove(key);
+    }
+  }
+
   Future<AppLanguageType> _getDefaultLangToUse() async {
     try {
       _logger.info(runtimeType, '_getDefaultLangToUse: Trying to retrieve device lang...');
@@ -120,4 +143,6 @@ class SettingsService {
       return AppLanguageType.english;
     }
   }
+
+  static String _getHasReadKey(int storyId) => 'hasRead_$storyId';
 }

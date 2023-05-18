@@ -1,17 +1,23 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks/src/features/news/presentation/news_screen/news_screen.dart';
+import 'package:hooks/src/features/home/presentation/home_page.dart';
+import 'package:hooks/src/features/settings/presentation/settings_page.dart';
+import 'package:hooks/src/routing/mobile_scaffold.dart';
 
 enum AppRoute {
   onboarding,
-  news,
+  home,
+  stories,
+  settings,
 }
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
   static final GoRouter _router = GoRouter(
-    initialLocation: '/news',
+    initialLocation: '/home',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
@@ -23,13 +29,37 @@ class AppRouter {
           child: const Placeholder(),
         ),
       ),
-      GoRoute(
-        path: '/news',
-        name: AppRoute.news.name,
-        pageBuilder: (context, state) => NoTransitionPage(
-          key: state.pageKey,
-          child: const NewsScreen(),
-        ),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, child) {
+          return MobileScaffold(child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/home',
+            name: AppRoute.home.name,
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const HomePage(),
+            ),
+          ),
+          GoRoute(
+            path: '/stories',
+            name: AppRoute.stories.name,
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const Scaffold(backgroundColor: Colors.red),
+            ),
+          ),
+          GoRoute(
+            path: '/settings',
+            name: AppRoute.settings.name,
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const SettingsPage(),
+            ),
+          ),
+        ],
       ),
     ],
   );

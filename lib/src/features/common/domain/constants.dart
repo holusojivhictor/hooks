@@ -7,3 +7,5 @@ const na = 'N/A';
 const languagesMap = {
   AppLanguageType.english: LanguageModel('en', 'US'),
 };
+
+const String guidelineLink = 'https://news.ycombinator.com/newsguidelines.html';
