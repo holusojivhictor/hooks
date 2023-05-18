@@ -1,14 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks/src/app.dart';
+import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/extensions/string_extensions.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   registerErrorHandlers();
+  await Injection.init();
 
-  runApp(const MyApp());
+  runApp(const HooksApp());
 }
 
 
