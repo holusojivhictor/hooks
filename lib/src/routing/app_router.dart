@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks/src/features/home/presentation/home_page.dart';
 import 'package:hooks/src/features/settings/presentation/settings_page.dart';
+import 'package:hooks/src/features/stories/presentation/stories_page.dart';
 import 'package:hooks/src/routing/mobile_scaffold.dart';
 
 enum AppRoute {
@@ -48,7 +49,7 @@ class AppRouter {
             name: AppRoute.stories.name,
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Scaffold(backgroundColor: Colors.red),
+              child: const StoriesPage(),
             ),
           ),
           GoRoute(

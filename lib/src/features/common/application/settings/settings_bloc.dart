@@ -13,11 +13,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       this._settingsService,
       this._deviceInfoService,
       this._appBloc,) : super(const SettingsState.loading()) {
-    on<_Init>(_mapInitToState);
-    on<_ThemeChanged>(_mapThemeChangedToState);
-    on<_LanguageChanged>(_mapLanguageChangedToState);
-    on<_DoubleBackToCloseChanged>(_mapDoubleBackToCloseToState);
-    on<_AutoThemeModeTypeChanged>(_mapAutoThemeModeChangedToState);
+    on<_Init>(_onInit);
+    on<_ThemeChanged>(_onThemeChanged);
+    on<_LanguageChanged>(_onLanguageChanged);
+    on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
+    on<_MarkReadStoriesChanged>(_onMarkReadStoriesChanged);
+    on<_AutoThemeModeTypeChanged>(_onAutoThemeModeTypeChanged);
   }
   final SettingsService _settingsService;
   final DeviceInfoService _deviceInfoService;
@@ -25,7 +26,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   _LoadedState get currentState => state as _LoadedState;
 
-  Future<void> _mapInitToState(_Init event, Emitter<SettingsState> emit) async {
+  Future<void> _onInit(_Init event, Emitter<SettingsState> emit) async {
     final settings = _settingsService.appSettings;
 
     emit(SettingsState.loaded(
@@ -33,11 +34,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       currentLanguage: settings.appLanguage,
       appVersion: _deviceInfoService.version,
       doubleBackToClose: settings.doubleBackToClose,
+      markReadStories: settings.markReadStories,
       themeMode: settings.themeMode,
     ),);
   }
 
-  void _mapThemeChangedToState(_ThemeChanged event, Emitter<SettingsState> emit) {
+  void _onThemeChanged(_ThemeChanged event, Emitter<SettingsState> emit) {
     if (event.newValue == _settingsService.appTheme) {
       return emit(currentState);
     }
@@ -46,7 +48,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(currentState.copyWith.call(currentTheme: event.newValue));
   }
 
-  void _mapLanguageChangedToState(_LanguageChanged event, Emitter<SettingsState> emit) {
+  void _onLanguageChanged(_LanguageChanged event, Emitter<SettingsState> emit) {
     if (event.newValue == _settingsService.language) {
       return emit(currentState);
     }
@@ -54,12 +56,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(currentState.copyWith.call(currentLanguage: event.newValue));
   }
 
-  void _mapDoubleBackToCloseToState(_DoubleBackToCloseChanged event, Emitter<SettingsState> emit) {
+  void _onDoubleBackToCloseChanged(_DoubleBackToCloseChanged event, Emitter<SettingsState> emit) {
     _settingsService.doubleBackToClose = event.newValue;
     emit(currentState.copyWith.call(doubleBackToClose: event.newValue));
   }
 
-  void _mapAutoThemeModeChangedToState(_AutoThemeModeTypeChanged event, Emitter<SettingsState> emit) {
+  void _onMarkReadStoriesChanged(_MarkReadStoriesChanged event, Emitter<SettingsState> emit) {
+    _settingsService.markReadStories = event.newValue;
+    emit(currentState.copyWith.call(markReadStories: event.newValue));
+  }
+
+  void _onAutoThemeModeTypeChanged(_AutoThemeModeTypeChanged event, Emitter<SettingsState> emit) {
     if (event.newValue == _settingsService.autoThemeMode) {
       return emit(currentState);
     }

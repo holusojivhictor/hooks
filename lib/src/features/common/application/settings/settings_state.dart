@@ -9,6 +9,7 @@ class SettingsState with _$SettingsState {
     required AppLanguageType currentLanguage,
     required String appVersion,
     required bool doubleBackToClose,
+    required bool markReadStories,
     required AutoThemeModeType themeMode,
   }) = _LoadedState;
 }

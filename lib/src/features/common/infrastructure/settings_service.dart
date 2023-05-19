@@ -14,6 +14,7 @@ class SettingsService {
   final _isFirstInstallKey = 'FirstInstall';
   final _doubleBackToCloseKey = 'DoubleBackToClose';
   final _autoThemeModeKey = 'AutoThemeMode';
+  final _markReadStoriesKey = 'MarkReadStories';
   final _filterKeywordsKey = 'FilterKeywords';
 
   bool _initialized = false;
@@ -37,6 +38,10 @@ class SettingsService {
 
   set doubleBackToClose(bool value) => _prefs.setBool(_doubleBackToCloseKey, value);
 
+  bool get markReadStories => _prefs.getBool(_markReadStoriesKey)!;
+
+  set markReadStories(bool value) => _prefs.setBool(_markReadStoriesKey, value);
+
   AutoThemeModeType get autoThemeMode => AutoThemeModeType.values[_prefs.getInt(_autoThemeModeKey)!];
 
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
@@ -47,6 +52,7 @@ class SettingsService {
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
+    markReadStories: markReadStories,
     themeMode: autoThemeMode,
   );
 
@@ -79,6 +85,11 @@ class SettingsService {
     if (_prefs.get(_doubleBackToCloseKey) == null) {
       _logger.info(runtimeType, 'Double back to close will be set to its default (true)');
       doubleBackToClose = true;
+    }
+
+    if (_prefs.get(_markReadStoriesKey) == null) {
+      _logger.info(runtimeType, 'Mark read stories will be set to its default (true)');
+      markReadStories = true;
     }
 
     if (_prefs.get(_autoThemeModeKey) == null) {

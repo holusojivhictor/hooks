@@ -656,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  pull_to_refresh:
+    dependency: "direct main"
+    description:
+      name: pull_to_refresh
+      sha256: bbadd5a931837b57739cf08736bea63167e284e71fb23b218c8c9a6e042aad12
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -891,7 +899,7 @@ packages:
       path: "."
       ref: main
       resolved-ref: "52262e5e7466bdcc6f1b3dfb09af58d02b31e106"
-      url: "https://github.com/holusojivhictor/version_tracker.git"
+      url: "https://github.com/holusojivhictor/version_tracker"
     source: git
     version: "2.2.0"
   very_good_analysis:

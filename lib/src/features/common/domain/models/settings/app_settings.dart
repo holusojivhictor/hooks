@@ -12,6 +12,7 @@ class AppSettings with _$AppSettings {
     required bool useDarkMode,
     required bool isFirstInstall,
     required bool doubleBackToClose,
+    required bool markReadStories,
     required AutoThemeModeType themeMode,
   }) = _AppSettings;
 

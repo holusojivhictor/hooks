@@ -16,6 +16,10 @@ class SettingsEvent with _$SettingsEvent {
     required bool newValue,
   }) = _DoubleBackToCloseChanged;
 
+  const factory SettingsEvent.markReadStoriesChanged({
+    required bool newValue,
+  }) = _MarkReadStoriesChanged;
+
   const factory SettingsEvent.autoThemeModeTypeChanged({
     required AutoThemeModeType newValue,
   }) = _AutoThemeModeTypeChanged;
