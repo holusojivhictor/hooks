@@ -9,6 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ItemListView<T extends Item> extends StatelessWidget {
   const ItemListView({
+    required this.showWebPreview,
     required this.useCommentTile,
     required this.showCommentBy,
     required this.showMetadata,
@@ -22,6 +23,7 @@ class ItemListView<T extends Item> extends StatelessWidget {
     this.onLoadMore,
   });
 
+  final bool showWebPreview;
   final bool useCommentTile;
   final bool showCommentBy;
   final bool showMetadata;

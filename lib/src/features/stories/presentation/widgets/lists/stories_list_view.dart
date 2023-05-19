@@ -35,6 +35,9 @@ class _StoriesListViewState extends State<StoriesListView> {
     final onStoryTapped = widget.onStoryTapped;
 
     return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (previous, current) =>
+      (previous.mapOrNull(loaded: (prev) => prev.complexStoryTile)) !=
+          (current.mapOrNull(loaded: (curr) => curr.complexStoryTile)),
       builder: (context, settingsState) {
         return BlocConsumer<StoriesBloc, StoriesState>(
           listenWhen: (previous, current) =>

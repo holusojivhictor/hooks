@@ -3,6 +3,7 @@ import 'package:hooks/src/features/stories/domain/models/db/models.dart';
 
 class StoryTile extends StatelessWidget {
   const StoryTile({
+    required this.showWebPreview,
     required this.showMetadata,
     required this.showUrl,
     required this.hasRead,
@@ -12,6 +13,7 @@ class StoryTile extends StatelessWidget {
     super.key,
   });
 
+  final bool showWebPreview;
   final bool showMetadata;
   final bool showUrl;
   final bool hasRead;
