@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
-import 'package:hooks/src/features/stories/domain/models/db/models.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
 
 part 'stories_bloc.freezed.dart';

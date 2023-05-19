@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/stories/application/stories_bloc.dart';
-import 'package:hooks/src/features/stories/domain/models/db/models.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class StoriesListView extends StatefulWidget {

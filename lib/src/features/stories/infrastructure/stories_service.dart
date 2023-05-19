@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
-import 'package:hooks/src/features/stories/domain/models/db/models.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/utils/html_utils.dart';
 import 'package:tuple/tuple.dart';
 

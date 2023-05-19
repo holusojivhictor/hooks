@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hooks/src/features/stories/domain/models/db/models.dart';
+import 'package:hooks/src/extensions/context_extension.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 
 class StoryTile extends StatelessWidget {
   const StoryTile({
@@ -23,6 +24,18 @@ class StoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (story.hidden) return const SizedBox.shrink();
+    if (showWebPreview) {
+      final height = context.storyTileHeight;
+      return Semantics(
+        label: story.screenReaderLabel,
+        excludeSemantics: true,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: ,
+        ),
+      );
+    }
     return const Placeholder();
   }
 }

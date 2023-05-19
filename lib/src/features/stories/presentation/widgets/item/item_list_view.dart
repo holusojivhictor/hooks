@@ -4,7 +4,7 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/stories/application/stories_bloc.dart';
-import 'package:hooks/src/features/stories/domain/models/db/models.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ItemListView<T extends Item> extends StatelessWidget {
