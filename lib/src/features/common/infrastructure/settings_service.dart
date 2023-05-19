@@ -15,6 +15,7 @@ class SettingsService {
   final _doubleBackToCloseKey = 'DoubleBackToClose';
   final _autoThemeModeKey = 'AutoThemeMode';
   final _markReadStoriesKey = 'MarkReadStories';
+  final _complexStoryTileKey = 'ComplexStoryTile';
   final _filterKeywordsKey = 'FilterKeywords';
 
   bool _initialized = false;
@@ -42,6 +43,10 @@ class SettingsService {
 
   set markReadStories(bool value) => _prefs.setBool(_markReadStoriesKey, value);
 
+  bool get complexStoryTile => _prefs.getBool(_complexStoryTileKey)!;
+
+  set complexStoryTile(bool value) => _prefs.setBool(_complexStoryTileKey, value);
+
   AutoThemeModeType get autoThemeMode => AutoThemeModeType.values[_prefs.getInt(_autoThemeModeKey)!];
 
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
@@ -53,6 +58,7 @@ class SettingsService {
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
     markReadStories: markReadStories,
+    complexStoryTile: complexStoryTile,
     themeMode: autoThemeMode,
   );
 
@@ -90,6 +96,11 @@ class SettingsService {
     if (_prefs.get(_markReadStoriesKey) == null) {
       _logger.info(runtimeType, 'Mark read stories will be set to its default (true)');
       markReadStories = true;
+    }
+
+    if (_prefs.get(_complexStoryTileKey) == null) {
+      _logger.info(runtimeType, 'Complex story tile will be set to its default (true)');
+      complexStoryTile = true;
     }
 
     if (_prefs.get(_autoThemeModeKey) == null) {

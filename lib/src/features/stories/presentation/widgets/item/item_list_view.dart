@@ -49,6 +49,7 @@ class ItemListView<T extends Item> extends StatelessWidget {
                   ),
                 ),
               ),
+              const Divider(height: 0),
             ];
           } else if (e is Comment) {
           }

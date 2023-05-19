@@ -18,6 +18,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_LanguageChanged>(_onLanguageChanged);
     on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
     on<_MarkReadStoriesChanged>(_onMarkReadStoriesChanged);
+    on<_ComplexStoryTileChanged>(_onComplexStoryTileChanged);
     on<_AutoThemeModeTypeChanged>(_onAutoThemeModeTypeChanged);
   }
   final SettingsService _settingsService;
@@ -35,6 +36,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       appVersion: _deviceInfoService.version,
       doubleBackToClose: settings.doubleBackToClose,
       markReadStories: settings.markReadStories,
+      complexStoryTile: settings.complexStoryTile,
       themeMode: settings.themeMode,
     ),);
   }
@@ -64,6 +66,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   void _onMarkReadStoriesChanged(_MarkReadStoriesChanged event, Emitter<SettingsState> emit) {
     _settingsService.markReadStories = event.newValue;
     emit(currentState.copyWith.call(markReadStories: event.newValue));
+  }
+
+  void _onComplexStoryTileChanged(_ComplexStoryTileChanged event, Emitter<SettingsState> emit) {
+    _settingsService.complexStoryTile = event.newValue;
+    emit(currentState.copyWith.call(complexStoryTile: event.newValue));
   }
 
   void _onAutoThemeModeTypeChanged(_AutoThemeModeTypeChanged event, Emitter<SettingsState> emit) {

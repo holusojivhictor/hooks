@@ -10,6 +10,7 @@ class SettingsState with _$SettingsState {
     required String appVersion,
     required bool doubleBackToClose,
     required bool markReadStories,
+    required bool complexStoryTile,
     required AutoThemeModeType themeMode,
   }) = _LoadedState;
 }

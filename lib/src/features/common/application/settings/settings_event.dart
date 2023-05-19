@@ -20,6 +20,10 @@ class SettingsEvent with _$SettingsEvent {
     required bool newValue,
   }) = _MarkReadStoriesChanged;
 
+  const factory SettingsEvent.complexStoryTileChanged({
+    required bool newValue,
+  }) = _ComplexStoryTileChanged;
+
   const factory SettingsEvent.autoThemeModeTypeChanged({
     required AutoThemeModeType newValue,
   }) = _AutoThemeModeTypeChanged;
