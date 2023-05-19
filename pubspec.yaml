@@ -17,6 +17,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
+  flutter_fadein:
+    git:
+      url: https://github.com/holusojivhictor/flutter_fadein
+      ref: master
+  flutter_slidable: ^3.0.0
   fluttertoast: ^8.2.1
   freezed_annotation: ^2.2.0
   get_it: ^7.6.0

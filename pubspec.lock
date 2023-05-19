@@ -302,6 +302,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
+  flutter_fadein:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "7b5e0ad04f95ab45260b59793cf8b1b1ed2ee0a0"
+      url: "https://github.com/holusojivhictor/flutter_fadein"
+    source: git
+    version: "2.0.0"
+  flutter_slidable:
+    dependency: "direct main"
+    description:
+      name: flutter_slidable
+      sha256: cc4231579e3eae41ae166660df717f4bad1359c87f4a4322ad8ba1befeb3d2be
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -659,11 +676,10 @@ packages:
   pull_to_refresh:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "6d7fbdd5b3cde242a474d66da312aac4aa892b9b"
-      url: "https://github.com/holusojivhictor/pull_to_refresh"
-    source: git
+      name: pull_to_refresh
+      sha256: bbadd5a931837b57739cf08736bea63167e284e71fb23b218c8c9a6e042aad12
+      url: "https://pub.dev"
+    source: hosted
     version: "2.0.0"
   rxdart:
     dependency: transitive
@@ -961,4 +977,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"
