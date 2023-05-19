@@ -659,10 +659,11 @@ packages:
   pull_to_refresh:
     dependency: "direct main"
     description:
-      name: pull_to_refresh
-      sha256: bbadd5a931837b57739cf08736bea63167e284e71fb23b218c8c9a6e042aad12
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "6d7fbdd5b3cde242a474d66da312aac4aa892b9b"
+      url: "https://github.com/holusojivhictor/pull_to_refresh"
+    source: git
     version: "2.0.0"
   rxdart:
     dependency: transitive
