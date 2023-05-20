@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks/src/features/common/domain/assets.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/common/presentation/job_avatar.dart';
 import 'package:hooks/src/features/common/presentation/styles.dart';
 import 'package:hooks/src/features/stories/presentation/widgets/tap_down_wrapper.dart';
 import 'package:hooks/src/utils/link_utils.dart';
@@ -17,6 +18,7 @@ class LinkView extends StatelessWidget {
     required this.description,
     required this.onTap,
     required this.showMetadata,
+    required this.isJob,
     required bool showUrl,
     required this.bodyMaxLines,
     required this.titleTextStyle,
@@ -50,6 +52,7 @@ class LinkView extends StatelessWidget {
   final bool isIcon;
   final double radius;
   final Color? bgColor;
+  final bool isJob;
   final bool showMetadata;
   final bool showUrl;
 
@@ -101,25 +104,35 @@ class LinkView extends StatelessWidget {
                   },
                   child: ClipRRect(
                     borderRadius: Styles.defaultCardBorderRadius,
-                    child: SizedBox(
-                      height: layoutHeight,
-                      width: layoutHeight,
-                      child: isIcon || (imageUri?.isEmpty ?? true) && imagePath != null
-                          ? Image.asset(
-                              imagePath!,
-                              fit: BoxFit.cover,
-                            )
-                          : CachedNetworkImage(
-                              imageUrl: imageUri!,
-                              fit: BoxFit.cover,
-                              memCacheHeight: layoutHeight.toInt() * 4,
-                              errorWidget: (BuildContext context, _, __) {
-                                return Image.asset(
-                                  Assets.hackerNewsLogoPath,
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: layoutHeight,
+                          width: layoutHeight,
+                          child: isIcon || (imageUri?.isEmpty ?? true) && imagePath != null
+                              ? Image.asset(
+                                  imagePath!,
                                   fit: BoxFit.cover,
-                                );
-                              },
-                            ),
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: imageUri!,
+                                  fit: BoxFit.cover,
+                                  memCacheHeight: layoutHeight.toInt() * 4,
+                                  errorWidget: (BuildContext context, _, __) {
+                                    return Image.asset(
+                                      Assets.hackerNewsLogoPath,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                ),
+                        ),
+                        if (isJob)
+                          const Positioned(
+                            right: 5,
+                            bottom: 5,
+                            child: JobAvatar(),
+                          ),
+                      ],
                     ),
                   ),
                 ),

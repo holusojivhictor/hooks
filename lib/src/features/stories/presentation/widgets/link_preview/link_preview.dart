@@ -172,6 +172,7 @@ class _LinkPreviewState extends State<LinkPreview> {
         bodyMaxLines: widget.bodyMaxLines,
         showMultiMedia: widget.showMultimedia,
         isIcon: isIcon,
+        isJob: widget.story.isJob,
         bgColor: widget.backgroundColor,
         radius: widget.borderRadius ?? 12,
         showMetadata: widget.showMetadata,
