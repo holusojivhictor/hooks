@@ -34,14 +34,14 @@ class LinkUtils {
       return;
     }
 
-    Uri rinseLink(String link) {
+    WebUri rinseLink(String link) {
       final regex = RegExp(RegExpConstants.linkSuffix);
       if (!link.contains('en.wikipedia.org') && link.contains(regex)) {
         final match = regex.stringMatch(link) ?? '';
-        return Uri.parse(link.replaceAll(match, ''));
+        return WebUri.uri(Uri.parse(link.replaceAll(match, '')));
       }
 
-      return Uri.parse(link);
+      return WebUri.uri(Uri.parse(link));
     }
 
     final uri = rinseLink(link);
@@ -53,11 +53,9 @@ class LinkUtils {
           } else {
             _browser.open(
               url: uri,
-              options: ChromeSafariBrowserClassOptions(
-                ios: IOSSafariOptions(
-                  entersReaderIfAvailable: useReader,
-                  preferredControlTintColor: AppColors.secondary,
-                ),
+              settings: ChromeSafariBrowserSettings(
+                entersReaderIfAvailable: useReader,
+                preferredControlTintColor: AppColors.secondary,
               ),
             ).onError((_, __) => launchUrl(uri));
           }

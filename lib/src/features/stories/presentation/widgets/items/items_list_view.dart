@@ -151,9 +151,7 @@ class ItemsListView<T extends Item> extends StatelessWidget {
     return SmartRefresher(
       enablePullUp: true,
       enablePullDown: enablePullDown,
-      header: const WaterDropMaterialHeader(
-        backgroundColor: AppColors.primary,
-      ),
+      header: const MaterialClassicHeader(),
       footer: CustomFooter(
         loadStyle: LoadStyle.ShowWhenLoading,
         builder: (context, mode) {

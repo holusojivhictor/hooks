@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hooks/src/extensions/context_extension.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/presentation/widgets/link_preview/link_preview.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:hooks/src/features/stories/presentation/widgets/link_preview/widgets/link_preview_placeholder.dart';
 
 class StoryTile extends StatelessWidget {
   const StoryTile({
@@ -42,7 +41,7 @@ class StoryTile extends StatelessWidget {
             link: story.url,
             story: story,
             onTap: onTap,
-            placeholderWidget: _LinkPreviewPlaceholder(height: height),
+            placeholderWidget: LinkPreviewPlaceholder(height: height),
             errorImage: Constants.hackerNewsLogoLink,
             backgroundColor: Colors.transparent,
             borderRadius: 0,
@@ -52,8 +51,11 @@ class StoryTile extends StatelessWidget {
             showMetadata: showMetadata,
             showUrl: showUrl,
             titleStyle: hasRead
-                ? textTheme.bodyMedium!.copyWith(color: AppColors.grey5)
-                : textTheme.bodyMedium!,
+                ? textTheme.bodyMedium!.copyWith(
+                    color: AppColors.grey5,
+                    fontWeight: FontWeight.w500,
+                  )
+                : textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
           ),
         ),
       );
@@ -80,8 +82,13 @@ class StoryTile extends StatelessWidget {
                               style: hasRead
                                   ? textTheme.bodyMedium!.copyWith(
                                       color: AppColors.grey5,
-                                      fontSize: simpleTileFontSize,)
-                                  : textTheme.bodyMedium!.copyWith(fontSize: simpleTileFontSize),
+                                      fontSize: simpleTileFontSize,
+                                      fontWeight: FontWeight.w500,
+                                    )
+                                  : textTheme.bodyMedium!.copyWith(
+                                      fontSize: simpleTileFontSize,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                             ),
                             if (showUrl && story.url.isNotEmpty)
                               TextSpan(
@@ -120,94 +127,5 @@ class StoryTile extends StatelessWidget {
         ),
       );
     }
-  }
-}
-
-class _LinkPreviewPlaceholder extends StatelessWidget {
-  const _LinkPreviewPlaceholder({
-    required this.height,
-  });
-
-  final double height;
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeIn(
-      child: SizedBox(
-        height: height,
-        child: Shimmer.fromColors(
-          baseColor: AppColors.primary,
-          highlightColor: AppColors.secondary,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: 5,
-                  bottom: 5,
-                  top: 5,
-                ),
-                child: Container(
-                  height: height,
-                  width: height,
-                  color: AppColors.white,
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 4,
-                    top: 6,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        height: 14,
-                        color: AppColors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 10,
-                        color: AppColors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 10,
-                        color: AppColors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 10,
-                        color: AppColors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      Container(
-                        width: 40,
-                        height: 10,
-                        color: AppColors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -145,6 +145,7 @@ class _LinkPreviewState extends State<LinkPreview> {
     bool isIcon = false,
   }) {
     return Container(
+      margin: const EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         borderRadius: BorderRadius.circular(
@@ -158,6 +159,7 @@ class _LinkPreviewState extends State<LinkPreview> {
       child: LinkView(
         key: widget.key ?? Key(widget.link),
         metadata: widget.story.simpleMetadata,
+        timeAgo: widget.story.timeAgo,
         url: widget.link,
         readableUrl: widget.story.readableUrl,
         title: widget.story.title,
