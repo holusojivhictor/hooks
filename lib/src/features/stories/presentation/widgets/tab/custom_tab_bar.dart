@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/common/presentation/styles.dart';
 import 'package:hooks/src/features/stories/presentation/widgets/tab/circle_tab_indicator.dart';
 
 class CustomTabBar extends StatefulWidget {

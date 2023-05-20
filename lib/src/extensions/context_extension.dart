@@ -3,6 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 extension ContextExtension on BuildContext {
+  Rect? get rect {
+    final box = findRenderObject() as RenderBox?;
+    final rect = box == null ? null : box.localToGlobal(Offset.zero) & box.size;
+    return rect;
+  }
+
   static double _screenWidth = 0;
   static double _storyTileHeight = 0;
   static int _storyTileMaxLines = 4;

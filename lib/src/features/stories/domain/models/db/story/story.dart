@@ -64,7 +64,7 @@ class Story extends Item {
       '''$title, at $readableUrl, by $by $timeAgo. This story has $score point${score > 1 ? 's' : ''} and $descendants comment${descendants > 1 ? 's' : ''}''';
 
   String get simpleMetadata =>
-      '''$score point${score > 1 ? 's' : ''} $descendants comment${descendants > 1 ? 's' : ''} $timeAgo''';
+      '''$score point${score > 1 ? 's' : ''} $descendants comment${descendants > 1 ? 's' : ''}''';
 
   String get readableUrl {
     final url = Uri.parse(this.url);

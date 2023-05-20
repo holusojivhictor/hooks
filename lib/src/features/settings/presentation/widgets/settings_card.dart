@@ -62,6 +62,16 @@ class AppSettingsCard extends StatelessWidget {
               value: state.doubleBackToClose,
               onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.doubleBackToCloseChanged(newValue: newVal)),
             ),
+            SettingsSwitchListTile(
+              title: 'Show web preview',
+              value: state.complexStoryTile,
+              onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.complexStoryTileChanged(newValue: newVal)),
+            ),
+            SettingsSwitchListTile(
+              title: 'Mark read stories',
+              value: state.markReadStories,
+              onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.markReadStoriesChanged(newValue: newVal)),
+            ),
             SettingsListTile(
               title: 'Version',
               trailing: PaddedText(

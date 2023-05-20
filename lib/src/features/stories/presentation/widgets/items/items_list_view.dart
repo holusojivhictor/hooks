@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:hooks/src/extensions/context_extension.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/custom_circular_progress_indicator.dart';
@@ -28,6 +29,7 @@ class ItemsListView<T extends Item> extends StatelessWidget {
     super.key,
     this.onRefresh,
     this.onLoadMore,
+    this.onMoreTapped,
   });
 
   final bool showWebPreview;
@@ -43,6 +45,7 @@ class ItemsListView<T extends Item> extends StatelessWidget {
   final VoidCallback? onRefresh;
   final VoidCallback? onLoadMore;
   final void Function(T) onTap;
+  final void Function(Story, Rect?)? onMoreTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +56,29 @@ class ItemsListView<T extends Item> extends StatelessWidget {
           if (e is Story) {
             final hasRead = context.read<StoriesBloc>().hasRead(e);
             return <Widget>[
-              GestureDetector(
-                child: FadeIn(
-                  child: Slidable(
-                    child: StoryTile(
-                      key: ValueKey<int>(e.id),
-                      story: e,
-                      onTap: () => onTap(e),
-                      showWebPreview: showWebPreview,
-                      showMetadata: showMetadata,
-                      showUrl: showUrl,
-                      hasRead: markReadStories && hasRead,
-                      simpleTileFontSize: useConsistentFontSize ? 14 : 16,
-                    ),
+              FadeIn(
+                child: Slidable(
+                  startActionPane: ActionPane(
+                    motion: const BehindMotion(),
+                    children: <Widget>[
+                      SlidableAction(
+                        onPressed: (_) => onMoreTapped?.call(e, context.rect),
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.white,
+                        icon: showWebPreview ? Icons.more_horiz : null,
+                        label: showWebPreview ? null : 'more',
+                      ),
+                    ],
+                  ),
+                  child: StoryTile(
+                    key: ValueKey<int>(e.id),
+                    story: e,
+                    onTap: () => onTap(e),
+                    showWebPreview: showWebPreview,
+                    showMetadata: showMetadata,
+                    showUrl: showUrl,
+                    hasRead: markReadStories && hasRead,
+                    simpleTileFontSize: useConsistentFontSize ? 14 : 16,
                   ),
                 ),
               ),
@@ -151,9 +164,7 @@ class ItemsListView<T extends Item> extends StatelessWidget {
     return SmartRefresher(
       enablePullUp: true,
       enablePullDown: enablePullDown,
-      header: const WaterDropMaterialHeader(
-        backgroundColor: AppColors.primary,
-      ),
+      header: const MaterialClassicHeader(),
       footer: CustomFooter(
         loadStyle: LoadStyle.ShowWhenLoading,
         builder: (context, mode) {
