@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
+import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/common/presentation/linkify/linkify.dart';
 import 'package:hooks/src/features/stories/application/stories_bloc.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
+import 'package:hooks/src/features/stories/presentation/widgets/item/widgets/story_tile.dart';
+import 'package:hooks/src/utils/link_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ItemListView<T extends Item> extends StatelessWidget {
@@ -13,10 +17,12 @@ class ItemListView<T extends Item> extends StatelessWidget {
     required this.useCommentTile,
     required this.showCommentBy,
     required this.showMetadata,
+    required this.showUrl,
     required this.enablePullDown,
     required this.markReadStories,
     required this.useConsistentFontSize,
     required this.items,
+    required this.onTap,
     required this.refreshController,
     super.key,
     this.onRefresh,
@@ -27,6 +33,7 @@ class ItemListView<T extends Item> extends StatelessWidget {
   final bool useCommentTile;
   final bool showCommentBy;
   final bool showMetadata;
+  final bool showUrl;
   final bool enablePullDown;
   final bool markReadStories;
   final bool useConsistentFontSize;
@@ -34,9 +41,11 @@ class ItemListView<T extends Item> extends StatelessWidget {
   final RefreshController refreshController;
   final VoidCallback? onRefresh;
   final VoidCallback? onLoadMore;
+  final void Function(T) onTap;
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final child = ListView(
       children: <Widget>[
         ...items.map((T e) {
@@ -46,14 +55,90 @@ class ItemListView<T extends Item> extends StatelessWidget {
               GestureDetector(
                 child: FadeIn(
                   child: Slidable(
-                    enabled: true,
-                    child: Placeholder(),
+                    child: StoryTile(
+                      story: e,
+                      onTap: () => onTap(e),
+                      showWebPreview: showWebPreview,
+                      showMetadata: showMetadata,
+                      showUrl: showUrl,
+                      hasRead: markReadStories && hasRead,
+                      simpleTileFontSize: useConsistentFontSize ? 14 : 16,
+                    ),
+                  ),
+                ),
+              ),
+              if (!showWebPreview)
+                const Divider(height: 0),
+            ];
+          } else if (e is Comment) {
+            if (useCommentTile) {
+              return <Widget>[
+                if (showWebPreview)
+                  const Divider(height: 0),
+                _CommentTile(
+                  comment: e,
+                  onTap: () => onTap(e),
+                  fontSize: showWebPreview ? 14 : 16,
+                ),
+                const Divider(height: 0),
+              ];
+            }
+            return <Widget>[
+              FadeIn(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: InkWell(
+                    onTap: () => onTap(e),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        if (e.deleted)
+                          const Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Text(
+                                'deleted',
+                                style: TextStyle(color: AppColors.grey4),
+                              ),
+                            ),
+                          ),
+                        Flex(
+                          direction: Axis.horizontal,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8,
+                                  horizontal: 6,
+                                ),
+                                child: Linkify(
+                                  text: '''${showCommentBy ? '${e.by}: ' : ''}${e.text}''',
+                                  maxLines: 4,
+                                  linkStyle: textTheme.bodyMedium!.copyWith(color: AppColors.primary),
+                                  onOpen: (link) => LinkUtils.launch(link.url),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  e.timeAgo,
+                                  style: textTheme.bodyMedium!.copyWith(color: AppColors.grey4),
+                                ),
+                                const SizedBox(width: 12),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const Divider(height: 0),
+                      ],
+                    ),
                   ),
                 ),
               ),
               const Divider(height: 0),
             ];
-          } else if (e is Comment) {
           }
 
           return <Widget>[Container()];
@@ -61,5 +146,62 @@ class ItemListView<T extends Item> extends StatelessWidget {
       ],
     );
     return const Placeholder();
+  }
+}
+
+class _CommentTile extends StatelessWidget {
+  const _CommentTile({
+    required this.comment,
+    required this.onTap,
+    this.fontSize = 16,
+  });
+
+  final Comment comment;
+  final VoidCallback onTap;
+  final double fontSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 8),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    comment.text,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    comment.metadata,
+                    style: TextStyle(
+                      color: AppColors.grey4,
+                      fontSize: fontSize - 2,
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
   }
 }

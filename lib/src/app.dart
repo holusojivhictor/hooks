@@ -10,6 +10,8 @@ import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
 class HooksApp extends StatelessWidget {
   const HooksApp({super.key});
 
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

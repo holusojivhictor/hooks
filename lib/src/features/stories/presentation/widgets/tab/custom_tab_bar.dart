@@ -53,7 +53,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
                 fontSize: currentIndex == i ? 16 : 12,
                 color: currentIndex == i ? colorScheme.primary : AppColors.grey6,
               ),
-              duration: kAnimationDuration,
+              duration: Constants.kAnimationDuration,
               child: Text(
                 StoryType.values.elementAt(i).label,
                 key: ValueKey<String>(

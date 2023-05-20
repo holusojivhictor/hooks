@@ -73,7 +73,6 @@ class StoriesService {
   Future<User?> fetchUser({required String id}) async {
     final user = await _firebaseClient.get('${_baseUrl}user/$id.json').then((dynamic val) {
       final json = val as Map<String, dynamic>?;
-
       if (json == null) return null;
 
       final user = User.fromJson(json);
@@ -97,11 +96,24 @@ class StoriesService {
   Future<Story?> fetchStory({required int id}) async {
     final story = await _fetchItemJson(id).then((Map<String, dynamic>? json) {
       if (json == null) return null;
+
       final story = Story.fromJson(json);
       return story;
     });
 
     return story;
+  }
+
+  /// Fetch a [Comment] based on its id.
+  Future<Comment?> fetchComment({required int id}) async {
+    final comment = await _fetchItemJson(id).then((Map<String, dynamic>? json) async {
+      if (json == null) return null;
+
+      final comment = Comment.fromJson(json);
+      return comment;
+    });
+
+    return comment;
   }
 
   /// Fetch the parent [Story] of a [Comment].

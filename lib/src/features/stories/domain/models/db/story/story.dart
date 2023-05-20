@@ -27,7 +27,7 @@ class Story extends Item {
           time: 1171872000,
           by: 'Y Combinator',
           title: 'Hacker News Guidelines',
-          url: guidelineLink,
+          url: Constants.guidelineLink,
           kids: <int>[],
           dead: false,
           parts: <int>[],

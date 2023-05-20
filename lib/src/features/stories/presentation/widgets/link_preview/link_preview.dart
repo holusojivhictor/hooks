@@ -1,21 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hooks/src/extensions/context_extension.dart';
 import 'package:hooks/src/features/common/domain/assets.dart';
+import 'package:hooks/src/features/common/domain/constants.dart';
+import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/presentation/widgets/link_preview/widgets/link_view.dart';
 
 class LinkPreview extends StatefulWidget {
   const LinkPreview({
-    super.key,
     required this.link,
     required this.story,
     required this.onTap,
     required this.showMetadata,
     required this.showUrl,
-    required this.isOfflineReading,
     required this.titleStyle,
+    super.key,
     this.cache = const Duration(days: 30),
     this.showMultimedia = true,
     this.backgroundColor = const Color.fromRGBO(235, 235, 235, 1),
@@ -100,7 +102,6 @@ class LinkPreview extends StatefulWidget {
 
   final bool showMetadata;
   final bool showUrl;
-  final bool isOfflineReading;
 
   @override
   _LinkPreviewState createState() => _LinkPreviewState();
@@ -115,10 +116,7 @@ class _LinkPreviewState extends State<LinkPreview> {
   @override
   void initState() {
     _errorTitle = widget.errorTitle ?? Constants.errorMessage;
-    _errorBody = widget.errorBody ??
-        'Oops! Unable to parse the url. We have '
-            'sent feedback to our developers & '
-            'we will try to fix this in our next release. Thanks!';
+    _errorBody = widget.errorBody ?? 'Oops! Unable to parse the url.';
 
     _loading = true;
     _getInfo();
@@ -130,7 +128,6 @@ class _LinkPreviewState extends State<LinkPreview> {
     _info = await WebAnalyzer.getInfo(
       story: widget.story,
       cache: widget.cache,
-      offlineReading: widget.isOfflineReading,
     );
 
     if (mounted) {
@@ -141,12 +138,12 @@ class _LinkPreviewState extends State<LinkPreview> {
   }
 
   Widget _buildLinkContainer(
-      double height, {
-        String? title = '',
-        String? desc = '',
-        String? imageUri = '',
-        bool isIcon = false,
-      }) {
+    double height, {
+    String? title = '',
+    String? desc = '',
+    String? imageUri = '',
+    bool isIcon = false,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor,
@@ -156,9 +153,9 @@ class _LinkPreviewState extends State<LinkPreview> {
         boxShadow: widget.removeElevation
             ? <BoxShadow>[]
             : widget.boxShadow ??
-            <BoxShadow>[
-              const BoxShadow(blurRadius: 3, color: AppColors.grey4),
-            ],
+                <BoxShadow>[
+                  const BoxShadow(blurRadius: 3, color: AppColors.grey4),
+                ],
       ),
       height: height,
       child: LinkView(
@@ -186,51 +183,49 @@ class _LinkPreviewState extends State<LinkPreview> {
 
   @override
   Widget build(BuildContext context) {
-    // final Widget loadingWidget = widget.placeholderWidget ??
-    //     Container(
-    //       height: context.storyTileHeight,
-    //       width: MediaQuery.of(context).size.width,
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(
-    //           widget.borderRadius ?? Dimens.pt12,
-    //         ),
-    //         color: Palette.grey[200],
-    //       ),
-    //       alignment: Alignment.center,
-    //       child: const Text('Fetching data...'),
-    //     );
-    //
-    // Widget loadedWidget;
-    //
-    // final WebInfo? info = _info as WebInfo?;
-    // loadedWidget = _info == null
-    //     ? _buildLinkContainer(
-    //   context.storyTileHeight,
-    //   title: _errorTitle,
-    //   desc: _errorBody,
-    //   imageUri: null,
-    // )
-    //     : _buildLinkContainer(
-    //   context.storyTileHeight,
-    //   title: _errorTitle,
-    //   desc: WebAnalyzer.isNotEmpty(info!.description)
-    //       ? info.description
-    //       : _errorBody,
-    //   imageUri: widget.showMultimedia
-    //       ? (WebAnalyzer.isNotEmpty(info.image)
-    //       ? info.image
-    //       : WebAnalyzer.isNotEmpty(info.icon)
-    //       ? info.icon
-    //       : null)
-    //       : null,
-    //   isIcon: !WebAnalyzer.isNotEmpty(info.image),
-    // );
+    final loadingWidget = widget.placeholderWidget ??
+        Container(
+          height: context.storyTileHeight,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.borderRadius ?? 12),
+            color: AppColors.grey2,
+          ),
+          alignment: Alignment.center,
+          child: const Text('Fetching data...'),
+        );
+
+    Widget loadedWidget;
+
+    final info = _info as WebInfo?;
+    loadedWidget = _info == null
+        ? _buildLinkContainer(
+            context.storyTileHeight,
+            title: _errorTitle,
+            desc: _errorBody,
+            imageUri: null,
+          )
+        : _buildLinkContainer(
+            context.storyTileHeight,
+            title: _errorTitle,
+            desc: WebAnalyzer.isNotEmpty(info!.description)
+                ? info.description
+                : _errorBody,
+            imageUri: widget.showMultimedia
+                ? (WebAnalyzer.isNotEmpty(info.image)
+                    ? info.image
+                    : WebAnalyzer.isNotEmpty(info.icon)
+                        ? info.icon
+                        : null)
+                : null,
+            isIcon: !WebAnalyzer.isNotEmpty(info.image),
+          );
 
     return AnimatedCrossFade(
       firstChild: loadingWidget,
       secondChild: loadedWidget,
       crossFadeState:
-      _loading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          _loading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
       duration: const Duration(milliseconds: 500),
     );
   }

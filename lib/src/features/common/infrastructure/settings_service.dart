@@ -146,7 +146,7 @@ class SettingsService {
         return AppLanguageType.english;
       }
 
-      final appLang = languagesMap.entries.firstWhereOrNull((val) => val.value.code == deviceLocale.languageCode);
+      final appLang = Constants.languagesMap.entries.firstWhereOrNull((val) => val.value.code == deviceLocale.languageCode);
       if (appLang == null) {
         _logger.info(
           runtimeType,
