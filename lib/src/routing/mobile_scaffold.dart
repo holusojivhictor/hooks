@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks/src/extensions/string_extensions.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/navigation_bar/animated_navigation_bar.dart';
 import 'package:hooks/src/features/common/presentation/navigation_bar/navigation_bar_item.dart';
 import 'package:hooks/src/routing/app_router.dart';
-import 'package:hooks/src/utils/toast_utils.dart';
+import 'package:hooks/src/utils/utils.dart';
 
 class MobileScaffold extends StatefulWidget {
   const MobileScaffold({required this.child, super.key});
@@ -35,22 +34,21 @@ class _MobileScaffoldState extends State<MobileScaffold> {
           selectedItemColor: AppColors.variantBlack,
           unselectedItemColor: AppColors.variantGrey8,
           currentIndex: _selectedIndex,
-          items: [
-            // products
+          items: const [
             NavigationBarItem(
-              icon: const Icon(Icons.work_outline),
-              activeIcon: const Icon(Icons.work),
-              title: 'Home'.hardcoded,
+              icon: Icon(Icons.work_outline),
+              activeIcon: Icon(Icons.work),
+              title: 'Home',
             ),
             NavigationBarItem(
-              icon: const Icon(Icons.auto_stories_outlined),
-              activeIcon: const Icon(Icons.auto_stories),
-              title: 'Stories'.hardcoded,
+              icon: Icon(Icons.auto_stories_outlined),
+              activeIcon: Icon(Icons.auto_stories),
+              title: 'Stories',
             ),
             NavigationBarItem(
-              icon: const Icon(Icons.settings_outlined),
-              activeIcon: const Icon(Icons.settings),
-              title: 'Settings'.hardcoded,
+              icon: Icon(Icons.settings_outlined),
+              activeIcon: Icon(Icons.settings),
+              title: 'Settings',
             ),
           ],
           onItemSelected: (index) => _goToTab(context, index),
@@ -90,7 +88,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     if (mustWait) {
       backButtonPressTime = now;
       final fToast = ToastUtils.of(context);
-      ToastUtils.showInfoToast(fToast, 'Press once again to exit'.hardcoded);
+      ToastUtils.showInfoToast(fToast, 'Press once again to exit');
       return false;
     }
 

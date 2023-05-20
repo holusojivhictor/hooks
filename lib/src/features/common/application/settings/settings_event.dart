@@ -24,6 +24,14 @@ class SettingsEvent with _$SettingsEvent {
     required bool newValue,
   }) = _ComplexStoryTileChanged;
 
+  const factory SettingsEvent.showMetadataChanged({
+    required bool newValue,
+  }) = _ShowMetadataChanged;
+
+  const factory SettingsEvent.showUrlChanged({
+    required bool newValue,
+  }) = _ShowUrlChanged;
+
   const factory SettingsEvent.autoThemeModeTypeChanged({
     required AutoThemeModeType newValue,
   }) = _AutoThemeModeTypeChanged;

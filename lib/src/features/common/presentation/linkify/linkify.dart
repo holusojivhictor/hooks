@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/linkify/linkifiers/linkifiers.dart';
-import 'package:hooks/src/utils/linkifier_utils.dart';
+import 'package:hooks/src/utils/utils.dart';
 import 'package:linkify/linkify.dart';
 
 export 'package:linkify/linkify.dart'

@@ -4,26 +4,27 @@ import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/common/presentation/custom_circular_progress_indicator.dart';
 import 'package:hooks/src/features/common/presentation/linkify/linkify.dart';
 import 'package:hooks/src/features/stories/application/stories_bloc.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
-import 'package:hooks/src/features/stories/presentation/widgets/item/widgets/story_tile.dart';
-import 'package:hooks/src/utils/link_utils.dart';
+import 'package:hooks/src/features/stories/presentation/widgets/items/widgets/story_tile.dart';
+import 'package:hooks/src/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ItemListView<T extends Item> extends StatelessWidget {
-  const ItemListView({
+class ItemsListView<T extends Item> extends StatelessWidget {
+  const ItemsListView({
     required this.showWebPreview,
-    required this.useCommentTile,
-    required this.showCommentBy,
     required this.showMetadata,
     required this.showUrl,
-    required this.enablePullDown,
-    required this.markReadStories,
-    required this.useConsistentFontSize,
     required this.items,
     required this.onTap,
     required this.refreshController,
+    this.useCommentTile = false,
+    this.showCommentBy = false,
+    this.enablePullDown = true,
+    this.markReadStories = false,
+    this.useConsistentFontSize = false,
     super.key,
     this.onRefresh,
     this.onLoadMore,
@@ -56,6 +57,7 @@ class ItemListView<T extends Item> extends StatelessWidget {
                 child: FadeIn(
                   child: Slidable(
                     child: StoryTile(
+                      key: ValueKey<int>(e.id),
                       story: e,
                       onTap: () => onTap(e),
                       showWebPreview: showWebPreview,
@@ -145,7 +147,37 @@ class ItemListView<T extends Item> extends StatelessWidget {
         }).expand((List<Widget> element) => element),
       ],
     );
-    return const Placeholder();
+
+    return SmartRefresher(
+      enablePullUp: true,
+      enablePullDown: enablePullDown,
+      header: const WaterDropMaterialHeader(
+        backgroundColor: AppColors.primary,
+      ),
+      footer: CustomFooter(
+        loadStyle: LoadStyle.ShowWhenLoading,
+        builder: (context, mode) {
+          const height = 55.0;
+          late final Widget body;
+
+          if (mode == LoadStatus.loading) {
+            body = const CustomCircularProgressIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = const Text('Loading failed');
+          } else {
+            body = const SizedBox.shrink();
+          }
+          return SizedBox(
+            height: height,
+            child: Center(child: body),
+          );
+        },
+      ),
+      controller: refreshController,
+      onLoading: onLoadMore,
+      onRefresh: onRefresh,
+      child: child,
+    );
   }
 }
 

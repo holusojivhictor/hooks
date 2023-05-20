@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/presentation/loading/loading.dart';
+import 'package:hooks/src/features/stories/application/stories_bloc.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
+import 'package:hooks/src/features/stories/presentation/widgets/lists/stories_list_view.dart';
 import 'package:hooks/src/features/stories/presentation/widgets/tab/custom_tab_bar.dart';
+import 'package:hooks/src/utils/utils.dart';
 
 class StoriesPage extends StatefulWidget {
   const StoriesPage({super.key});
@@ -58,12 +62,26 @@ class _StoriesPageState extends State<StoriesPage> with SingleTickerProviderStat
               controller: tabController,
               children: <Widget>[
                 for (final type in StoryType.values)
-                  const Placeholder(),
+                  StoriesListView(
+                    key: ValueKey<StoryType>(type),
+                    storyType: type,
+                    onStoryTapped: onStoryTapped,
+                  ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void onStoryTapped(Story story) {
+    final isJobWithLink = story.isJob && story.url.isNotEmpty;
+
+    if (story.url.isNotEmpty && isJobWithLink) {
+      LinkUtils.launch(story.url);
+    }
+
+    context.read<StoriesBloc>().add(StoriesEvent.storyRead(story: story));
   }
 }

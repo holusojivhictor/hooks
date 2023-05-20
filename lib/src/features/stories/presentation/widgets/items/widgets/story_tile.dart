@@ -15,7 +15,7 @@ class StoryTile extends StatelessWidget {
     required this.hasRead,
     required this.story,
     required this.onTap,
-    required this.simpleTileFontSize,
+    this.simpleTileFontSize = 16,
     super.key,
   });
 

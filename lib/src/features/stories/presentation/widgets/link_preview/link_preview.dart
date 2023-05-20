@@ -152,10 +152,7 @@ class _LinkPreviewState extends State<LinkPreview> {
         ),
         boxShadow: widget.removeElevation
             ? <BoxShadow>[]
-            : widget.boxShadow ??
-                <BoxShadow>[
-                  const BoxShadow(blurRadius: 3, color: AppColors.grey4),
-                ],
+            : widget.boxShadow ?? <BoxShadow>[const BoxShadow(blurRadius: 3, color: AppColors.grey4)],
       ),
       height: height,
       child: LinkView(
@@ -212,11 +209,8 @@ class _LinkPreviewState extends State<LinkPreview> {
                 ? info.description
                 : _errorBody,
             imageUri: widget.showMultimedia
-                ? (WebAnalyzer.isNotEmpty(info.image)
-                    ? info.image
-                    : WebAnalyzer.isNotEmpty(info.icon)
-                        ? info.icon
-                        : null)
+                ? (WebAnalyzer.isNotEmpty(info.image) ? info.image
+                : WebAnalyzer.isNotEmpty(info.icon) ? info.icon : null)
                 : null,
             isIcon: !WebAnalyzer.isNotEmpty(info.image),
           );

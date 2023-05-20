@@ -26,7 +26,7 @@ class LinkUtils {
 
   static void launch(
     String link, {
-    bool useReader = false,
+    bool useReader = true,
     bool useAppForHnLink = true,
   }) {
     if (useAppForHnLink && link.isStoryLink) {

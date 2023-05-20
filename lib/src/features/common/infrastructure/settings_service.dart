@@ -16,6 +16,8 @@ class SettingsService {
   final _autoThemeModeKey = 'AutoThemeMode';
   final _markReadStoriesKey = 'MarkReadStories';
   final _complexStoryTileKey = 'ComplexStoryTile';
+  final _showMetadataKey = 'ShowMetadata';
+  final _showUrlKey = 'ShowUrl';
   final _filterKeywordsKey = 'FilterKeywords';
 
   bool _initialized = false;
@@ -47,6 +49,14 @@ class SettingsService {
 
   set complexStoryTile(bool value) => _prefs.setBool(_complexStoryTileKey, value);
 
+  bool get showMetadata => _prefs.getBool(_showMetadataKey)!;
+
+  set showMetadata(bool value) => _prefs.setBool(_showMetadataKey, value);
+
+  bool get showUrl => _prefs.getBool(_showUrlKey)!;
+
+  set showUrl(bool value) => _prefs.setBool(_showUrlKey, value);
+
   AutoThemeModeType get autoThemeMode => AutoThemeModeType.values[_prefs.getInt(_autoThemeModeKey)!];
 
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
@@ -59,6 +69,8 @@ class SettingsService {
     doubleBackToClose: doubleBackToClose,
     markReadStories: markReadStories,
     complexStoryTile: complexStoryTile,
+    showMetadata: showMetadata,
+    showUrl: showUrl,
     themeMode: autoThemeMode,
   );
 
@@ -101,6 +113,16 @@ class SettingsService {
     if (_prefs.get(_complexStoryTileKey) == null) {
       _logger.info(runtimeType, 'Complex story tile will be set to its default (true)');
       complexStoryTile = true;
+    }
+
+    if (_prefs.get(_showMetadataKey) == null) {
+      _logger.info(runtimeType, 'Show metadata will be set to its default (true)');
+      showMetadata = true;
+    }
+
+    if (_prefs.get(_showUrlKey) == null) {
+      _logger.info(runtimeType, 'Show url will be set to its default (true)');
+      showUrl = true;
     }
 
     if (_prefs.get(_autoThemeModeKey) == null) {

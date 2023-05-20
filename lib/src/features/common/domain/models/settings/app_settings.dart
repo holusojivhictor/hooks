@@ -14,6 +14,8 @@ class AppSettings with _$AppSettings {
     required bool doubleBackToClose,
     required bool markReadStories,
     required bool complexStoryTile,
+    required bool showMetadata,
+    required bool showUrl,
     required AutoThemeModeType themeMode,
   }) = _AppSettings;
 
