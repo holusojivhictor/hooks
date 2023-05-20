@@ -1,3 +1,7 @@
 enum AppLanguageType {
-  english,
+  english('English');
+
+  const AppLanguageType(this.translate);
+
+  final String translate;
 }

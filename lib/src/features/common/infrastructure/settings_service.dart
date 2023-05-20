@@ -10,10 +10,15 @@ class SettingsService {
   SettingsService(this._logger);
 
   final _appThemeKey = 'AppTheme';
-  final _appLanguageKey = 'AppLanguageKey';
+  final _appLanguageKey = 'AppLanguage';
   final _isFirstInstallKey = 'FirstInstall';
-  final _doubleBackToCloseKey = 'DoubleBackToCloseKey';
-  final _autoThemeModeKey = 'AutoThemeModeKey';
+  final _doubleBackToCloseKey = 'DoubleBackToClose';
+  final _autoThemeModeKey = 'AutoThemeMode';
+  final _markReadStoriesKey = 'MarkReadStories';
+  final _complexStoryTileKey = 'ComplexStoryTile';
+  final _showMetadataKey = 'ShowMetadata';
+  final _showUrlKey = 'ShowUrl';
+  final _filterKeywordsKey = 'FilterKeywords';
 
   bool _initialized = false;
 
@@ -36,6 +41,22 @@ class SettingsService {
 
   set doubleBackToClose(bool value) => _prefs.setBool(_doubleBackToCloseKey, value);
 
+  bool get markReadStories => _prefs.getBool(_markReadStoriesKey)!;
+
+  set markReadStories(bool value) => _prefs.setBool(_markReadStoriesKey, value);
+
+  bool get complexStoryTile => _prefs.getBool(_complexStoryTileKey)!;
+
+  set complexStoryTile(bool value) => _prefs.setBool(_complexStoryTileKey, value);
+
+  bool get showMetadata => _prefs.getBool(_showMetadataKey)!;
+
+  set showMetadata(bool value) => _prefs.setBool(_showMetadataKey, value);
+
+  bool get showUrl => _prefs.getBool(_showUrlKey)!;
+
+  set showUrl(bool value) => _prefs.setBool(_showUrlKey, value);
+
   AutoThemeModeType get autoThemeMode => AutoThemeModeType.values[_prefs.getInt(_autoThemeModeKey)!];
 
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
@@ -46,6 +67,10 @@ class SettingsService {
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
+    markReadStories: markReadStories,
+    complexStoryTile: complexStoryTile,
+    showMetadata: showMetadata,
+    showUrl: showUrl,
     themeMode: autoThemeMode,
   );
 
@@ -80,6 +105,26 @@ class SettingsService {
       doubleBackToClose = true;
     }
 
+    if (_prefs.get(_markReadStoriesKey) == null) {
+      _logger.info(runtimeType, 'Mark read stories will be set to its default (true)');
+      markReadStories = true;
+    }
+
+    if (_prefs.get(_complexStoryTileKey) == null) {
+      _logger.info(runtimeType, 'Complex story tile will be set to its default (true)');
+      complexStoryTile = true;
+    }
+
+    if (_prefs.get(_showMetadataKey) == null) {
+      _logger.info(runtimeType, 'Show metadata will be set to its default (true)');
+      showMetadata = true;
+    }
+
+    if (_prefs.get(_showUrlKey) == null) {
+      _logger.info(runtimeType, 'Show url will be set to its default (true)');
+      showUrl = true;
+    }
+
     if (_prefs.get(_autoThemeModeKey) == null) {
       _logger.info(runtimeType, 'Auto theme mode set to false as default');
       autoThemeMode = AutoThemeModeType.off;
@@ -87,6 +132,28 @@ class SettingsService {
 
     _initialized = true;
     _logger.info(runtimeType, 'Settings were initialized successfully');
+  }
+
+  bool hasRead(int storyId) {
+    final key = _getHasReadKey(storyId);
+    final val = _prefs.getBool(key);
+
+    if (val == null) return false;
+
+    return true;
+  }
+
+  List<String> get filterKeywords => _prefs.getStringList(_filterKeywordsKey) ?? <String>[];
+
+  void updateFilterKeywords(List<String> keywords) => _prefs.setStringList(_filterKeywordsKey, keywords);
+
+  void updateHasRead(int storyId) => _prefs.setBool(_getHasReadKey(storyId), true);
+
+  void clearAllReadStories() {
+    final allKeys = _prefs.getKeys().where((String e) => e.contains('hasRead'));
+    for (final key in allKeys) {
+      _prefs.remove(key);
+    }
   }
 
   Future<AppLanguageType> _getDefaultLangToUse() async {
@@ -101,7 +168,7 @@ class SettingsService {
         return AppLanguageType.english;
       }
 
-      final appLang = languagesMap.entries.firstWhereOrNull((val) => val.value.code == deviceLocale.languageCode);
+      final appLang = Constants.languagesMap.entries.firstWhereOrNull((val) => val.value.code == deviceLocale.languageCode);
       if (appLang == null) {
         _logger.info(
           runtimeType,
@@ -120,4 +187,6 @@ class SettingsService {
       return AppLanguageType.english;
     }
   }
+
+  static String _getHasReadKey(int storyId) => 'hasRead_$storyId';
 }

@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:version_tracker/version_tracker.dart';
+
+const na = 'N/A';
 
 class DeviceInfoService {
   final Map<String, String> _deviceInfo = {};

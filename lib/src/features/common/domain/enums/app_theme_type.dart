@@ -1,10 +1,13 @@
-// ignore_for_file: avoid_positional_boolean_parameters
-
 enum AppThemeType {
-  light(false),
-  dark(true);
+  light,
+  dark;
 
-  const AppThemeType(this.darkMode);
-
-  final bool darkMode;
+  bool get darkMode {
+    switch (this) {
+      case AppThemeType.light:
+        return false;
+      case AppThemeType.dark:
+        return true;
+    }
+  }
 }
