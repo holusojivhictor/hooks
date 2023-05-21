@@ -44,6 +44,7 @@ dependencies:
   path_provider: ^2.0.15
   pull_to_refresh: ^2.0.0
   responsive_builder: ^0.7.0
+  rxdart: ^0.27.7
   scrollable_positioned_list: ^0.3.8
   sembast: ^3.4.4
   shared_preferences: ^2.1.1

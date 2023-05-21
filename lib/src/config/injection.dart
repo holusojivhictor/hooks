@@ -21,10 +21,10 @@ class Injection {
 
     final dataService = DataService();
     await dataService.init();
-    getIt.registerSingleton<DataService>(dataService);
-
-    final draftCache = DraftCache();
-    getIt.registerSingleton<DraftCache>(draftCache);
+    getIt
+      ..registerSingleton<DataService>(dataService)
+      ..registerSingleton<DraftCache>(DraftCache())
+      ..registerSingleton<CommentCache>(CommentCache());
 
     final authService = AuthService(loggingService, settingsService);
     getIt.registerSingleton<AuthService>(authService);

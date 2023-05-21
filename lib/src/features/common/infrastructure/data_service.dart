@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:hooks/src/features/stories/domain/models/models.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';

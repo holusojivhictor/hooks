@@ -9,7 +9,8 @@ import 'package:hooks/src/features/auth/application/auth_bloc.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
-import 'package:hooks/src/features/stories/domain/models/models.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
+import 'package:hooks/src/features/item/presentation/widgets/app_bar/custom_app_bar.dart';
 import 'package:hooks/src/routing/app_router.dart';
 import 'package:hooks/src/utils/utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -72,6 +73,7 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final topPadding = MediaQuery.of(context).padding.top + kToolbarHeight;
 
     return BlocBuilder<AuthBloc, AuthState>(
@@ -123,7 +125,14 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
               },
             ),
           ],
-          child: const Placeholder(),
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            resizeToAvoidBottomInset: true,
+            appBar: CustomAppBar(
+              backgroundColor: theme.canvasColor.withOpacity(0.6),
+              item: widget.item,
+            ),
+          ),
         );
       },
     );

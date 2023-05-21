@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/home/presentation/home_page.dart';
-import 'package:hooks/src/features/item/item_page.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
+import 'package:hooks/src/features/item/presentation/item_page.dart';
 import 'package:hooks/src/features/settings/presentation/settings_page.dart';
-import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/presentation/stories_page.dart';
 import 'package:hooks/src/routing/mobile_scaffold.dart';
 
@@ -61,11 +60,12 @@ class AppRouter {
                 name: AppRoute.item.name,
                 pageBuilder: (context, state) {
                   // TODO(morpheus): Extract item args
+                  final args = state.extra! as ItemPageArgs;
                   return MaterialPage(
                     key: state.pageKey,
                     child: ItemPage(
-                      item: Item.empty(),
-                      parentComments: const <Comment>[],
+                      item: args.item,
+                      parentComments: args.targetComments ?? <Comment>[],
                     ),
                   );
                 },

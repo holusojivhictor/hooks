@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
-import 'package:hooks/src/features/stories/domain/models/models.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
 
 class ItemPageArgs extends Equatable {
   const ItemPageArgs({

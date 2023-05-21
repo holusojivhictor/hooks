@@ -1,3 +1,4 @@
+export 'buildable.dart';
 export 'data/item/item.dart';
 export 'data/post/post.dart';
 export 'data/user/user.dart';
