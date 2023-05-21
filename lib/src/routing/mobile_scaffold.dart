@@ -74,7 +74,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     if (index == 0) {
       context.goNamed(AppRoute.home.name);
     } else if (index == 1) {
-      context.goNamed(AppRoute.stories.name);
+      context.goNamed(AppRoute.items.name);
     } else if (index == 2) {
       context.goNamed(AppRoute.settings.name);
     }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/home/presentation/home_page.dart';
+import 'package:hooks/src/features/item/item_page.dart';
 import 'package:hooks/src/features/settings/presentation/settings_page.dart';
+import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/presentation/stories_page.dart';
 import 'package:hooks/src/routing/mobile_scaffold.dart';
 
 enum AppRoute {
   onboarding,
   home,
-  stories,
+  items,
+  item,
   settings,
 }
 
@@ -45,12 +49,28 @@ class AppRouter {
             ),
           ),
           GoRoute(
-            path: '/stories',
-            name: AppRoute.stories.name,
+            path: '/items',
+            name: AppRoute.items.name,
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
               child: const StoriesPage(),
             ),
+            routes: [
+              GoRoute(
+                path: 'item/:id',
+                name: AppRoute.item.name,
+                pageBuilder: (context, state) {
+                  // TODO(morpheus): Extract item args
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: ItemPage(
+                      item: Item.empty(),
+                      parentComments: const <Comment>[],
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/settings',
