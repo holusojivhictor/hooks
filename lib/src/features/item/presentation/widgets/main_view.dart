@@ -5,9 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hooks/src/features/auth/application/auth_bloc.dart';
+import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/item/application/bloc.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
+import 'package:hooks/src/features/item/presentation/widgets/comment/comment_tile.dart';
 import 'package:hooks/src/features/item/presentation/widgets/parent_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -91,7 +93,37 @@ class MainView extends StatelessWidget {
                       final comment = state.comments.elementAt(index);
                       return FadeIn(
                         key: ValueKey<String>('${comment.id}-FadeIn'),
-                        child: Placeholder(),
+                        child: CommentTile(
+                          comment: comment,
+                          level: comment.level,
+                          opUsername: state.item.by,
+                          fetchMode: state.fetchMode,
+                          onReplyTapped: (cmt) {
+                            HapticFeedback.lightImpact();
+                            if (cmt.deleted || cmt.dead) {
+                              return;
+                            }
+
+                            if (cmt.id != context.read<EditCubit>().state.replyingTo?.id) {
+                              commentEditingController.clear();
+                            }
+
+                            context.read<EditCubit>().onReplyTapped(cmt);
+                            onReplyTapped();
+                          },
+                          onEditTapped: (cmt) {
+                            HapticFeedback.lightImpact();
+                            if (cmt.deleted || cmt.dead) {
+                              return;
+                            }
+                            commentEditingController.clear();
+                            context.read<EditCubit>().onEditTapped(cmt);
+
+                            onReplyTapped();
+                          },
+                          onMoreTapped: onMoreTapped,
+                          onRightMoreTapped: onRightMoreTapped,
+                        ),
                       );
                     },
                   ),

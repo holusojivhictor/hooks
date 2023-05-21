@@ -23,10 +23,12 @@ class SettingsService {
   final String _autoThemeModeKey = 'AutoThemeMode';
   final String _markReadStoriesKey = 'MarkReadStories';
   final String _complexStoryTileKey = 'ComplexStoryTile';
+  final String _tapAnywhereToCollapseKey = 'TapAnywhereToCollapse';
   final String _showMetadataKey = 'ShowMetadata';
   final String _showUrlKey = 'ShowUrl';
   final String _filterKeywordsKey = 'FilterKeywords';
   final String _unreadCommentsIdsKey = 'UnreadCommentsIds';
+  final String _blocklistKey = 'Blocklist';
 
   bool _initialized = false;
 
@@ -66,6 +68,10 @@ class SettingsService {
 
   set complexStoryTile(bool value) => _prefs.setBool(_complexStoryTileKey, value);
 
+  bool get tapAnywhereToCollapse => _prefs.getBool(_tapAnywhereToCollapseKey)!;
+
+  set tapAnywhereToCollapse(bool value) => _prefs.setBool(_tapAnywhereToCollapseKey, value);
+
   bool get showMetadata => _prefs.getBool(_showMetadataKey)!;
 
   set showMetadata(bool value) => _prefs.setBool(_showMetadataKey, value);
@@ -94,6 +100,7 @@ class SettingsService {
     doubleBackToClose: doubleBackToClose,
     markReadStories: markReadStories,
     complexStoryTile: complexStoryTile,
+    tapAnywhereToCollapse: tapAnywhereToCollapse,
     showMetadata: showMetadata,
     showUrl: showUrl,
     themeMode: autoThemeMode,
@@ -136,27 +143,32 @@ class SettingsService {
     }
 
     if (_prefs.get(_doubleBackToCloseKey) == null) {
-      _logger.info(runtimeType, 'Double back to close will be set to its default (true)');
+      _logger.info(runtimeType, 'Double back to close set to default (true)');
       doubleBackToClose = true;
     }
 
     if (_prefs.get(_markReadStoriesKey) == null) {
-      _logger.info(runtimeType, 'Mark read stories will be set to its default (true)');
+      _logger.info(runtimeType, 'Mark read stories set to default (true)');
       markReadStories = true;
     }
 
     if (_prefs.get(_complexStoryTileKey) == null) {
-      _logger.info(runtimeType, 'Complex story tile will be set to its default (true)');
+      _logger.info(runtimeType, 'Complex story tile set to default (true)');
       complexStoryTile = true;
     }
 
+    if (_prefs.get(_tapAnywhereToCollapseKey) == null) {
+      _logger.info(runtimeType, 'Tap anywhere to collapse set to default (true)');
+      tapAnywhereToCollapse = true;
+    }
+
     if (_prefs.get(_showMetadataKey) == null) {
-      _logger.info(runtimeType, 'Show metadata will be set to its default (true)');
+      _logger.info(runtimeType, 'Show metadata set to default (true)');
       showMetadata = true;
     }
 
     if (_prefs.get(_showUrlKey) == null) {
-      _logger.info(runtimeType, 'Show url will be set to its default (true)');
+      _logger.info(runtimeType, 'Show url set to default (true)');
       showUrl = true;
     }
 
@@ -227,6 +239,11 @@ class SettingsService {
       _prefs.remove(key);
     }
   }
+
+  /// Handle blocked data
+  List<String> get blocklist => _prefs.getStringList(_blocklistKey) ?? <String>[];
+
+  void updateBlocklist(List<String> usernames) => _prefs.setStringList(_blocklistKey, usernames);
 
   /// Update unread comments ids
   List<int> get unreadCommentsIds => _prefs.getStringList(_unreadCommentsIdsKey)?.map(int.parse).toList() ?? <int>[];

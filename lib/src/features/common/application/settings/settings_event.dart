@@ -32,6 +32,10 @@ class SettingsEvent with _$SettingsEvent {
     required bool newValue,
   }) = _ComplexStoryTileChanged;
 
+  const factory SettingsEvent.tapToCollapseChanged({
+    required bool newValue,
+  }) = _TapToCollapseChanged;
+
   const factory SettingsEvent.showMetadataChanged({
     required bool newValue,
   }) = _ShowMetadataChanged;

@@ -7,6 +7,7 @@ import 'package:hooks/src/features/auth/infrastructure/auth_service.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/infrastructure/caches/caches.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
+import 'package:hooks/src/features/item/application/bloc.dart';
 import 'package:hooks/src/features/stories/application/stories_bloc.dart';
 import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
 
@@ -38,6 +39,12 @@ class HooksApp extends StatelessWidget {
           create: (ctx) {
             final settingsService = getIt<SettingsService>();
             return FilterCubit(settingsService);
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final settingsService = getIt<SettingsService>();
+            return BlocklistCubit(settingsService);
           },
         ),
         BlocProvider(

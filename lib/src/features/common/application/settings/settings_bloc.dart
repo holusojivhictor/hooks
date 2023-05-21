@@ -22,6 +22,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
     on<_MarkReadStoriesChanged>(_onMarkReadStoriesChanged);
     on<_ComplexStoryTileChanged>(_onComplexStoryTileChanged);
+    on<_TapToCollapseChanged>(_onTapToCollapseChanged);
     on<_ShowMetadataChanged>(_onShowMetadataChanged);
     on<_ShowUrlChanged>(_onShowUrlChanged);
     on<_AutoThemeModeTypeChanged>(_onAutoThemeModeTypeChanged);
@@ -45,6 +46,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         doubleBackToClose: settings.doubleBackToClose,
         markReadStories: settings.markReadStories,
         complexStoryTile: settings.complexStoryTile,
+        tapAnywhereToCollapse: settings.tapAnywhereToCollapse,
         showMetadata: settings.showMetadata,
         showUrl: settings.showUrl,
         themeMode: settings.themeMode,
@@ -100,6 +102,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     emit(currentState.copyWith.call(complexStoryTile: event.newValue));
   }
 
+  void _onTapToCollapseChanged(_TapToCollapseChanged event, Emitter<SettingsState> emit) {
+    _settingsService.tapAnywhereToCollapse = event.newValue;
+    emit(currentState.copyWith.call(tapAnywhereToCollapse: event.newValue));
+  }
+
   void _onShowMetadataChanged(_ShowMetadataChanged event, Emitter<SettingsState> emit) {
     _settingsService.showMetadata = event.newValue;
     emit(currentState.copyWith.call(showMetadata: event.newValue));
@@ -120,6 +127,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   bool get doubleBackToClose => _settingsService.doubleBackToClose;
+
+  bool get tapAnywhereToCollapse => _settingsService.tapAnywhereToCollapse;
 
   FetchMode get fetchMode => _settingsService.fetchMode;
 
