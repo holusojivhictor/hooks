@@ -12,6 +12,9 @@ import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/item/presentation/widgets/app_bar/custom_app_bar.dart';
 import 'package:hooks/src/features/item/presentation/widgets/buttons/custom_fab.dart';
+import 'package:hooks/src/features/item/presentation/widgets/comment/reply_box.dart';
+import 'package:hooks/src/features/item/presentation/widgets/comment/time_machine_dialog.dart';
+import 'package:hooks/src/features/item/presentation/widgets/main_view.dart';
 import 'package:hooks/src/routing/app_router.dart';
 import 'package:hooks/src/utils/utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -88,7 +91,10 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
                   // TODO(morpheus): Monitor pop
                   context.go(AppRoute.item.name);
 
-                  final verb = context.read<EditCubit>().state.replyingTo == null ? 'updated' : 'submitted';
+                  final verb =
+                      context.read<EditCubit>().state.replyingTo == null
+                          ? 'updated'
+                          : 'submitted';
                   final msg = 'Comment $verb!';
                   HapticFeedback.lightImpact();
                   ToastUtils.showInfoToast(fToast, msg);
@@ -109,7 +115,8 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
                     commentEditingController.text != current.text;
               },
               listener: (context, editState) {
-                if (editState.replyingTo != null || editState.itemBeingEdited != null) {
+                if (editState.replyingTo != null ||
+                    editState.itemBeingEdited != null) {
                   if (editState.text == null) {
                     commentEditingController.clear();
                   } else {
@@ -133,7 +140,16 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
               backgroundColor: theme.canvasColor.withOpacity(0.6),
               item: widget.item,
             ),
-            body: Placeholder(),
+            body: MainView(
+              itemScrollController: itemScrollController,
+              itemPositionsListener: itemPositionsListener,
+              commentEditingController: commentEditingController,
+              authState: authState,
+              topPadding: topPadding,
+              onMoreTapped: onMoreTapped,
+              onRightMoreTapped: onRightMoreTapped,
+              onReplyTapped: showReplyBox,
+            ),
             floatingActionButton: CustomFloatingActionButton(
               itemScrollController: itemScrollController,
               itemPositionsListener: itemPositionsListener,
@@ -142,5 +158,115 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
         );
       },
     );
+  }
+
+  void showReplyBox() {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ReplyBox(
+              textEditingController: commentEditingController,
+              onSendTapped: onSendTapped,
+              onCloseTapped: () {
+                context.read<EditCubit>().onReplyBoxClosed();
+                commentEditingController.clear();
+              },
+              onChanged: context.read<EditCubit>().onTextChanged,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void onRightMoreTapped(Comment comment) {
+    HapticFeedback.lightImpact();
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: ColoredBox(
+            color: Theme.of(context).canvasColor,
+            child: Material(
+              color: Colors.transparent,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ListTile(
+                    leading: const Icon(Icons.av_timer),
+                    title: const Text('View ancestors'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      onTimeMachineActivated(comment);
+                    },
+                    enabled:
+                    comment.level > 0 && !(comment.dead || comment.deleted),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.list),
+                    title: const Text('View in separate thread'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      goToItemScreen(
+                        args: ItemPageArgs(
+                          item: comment,
+                          useCommentCache: true,
+                        ),
+                      );
+                    },
+                    enabled: !(comment.dead || comment.deleted),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void onTimeMachineActivated(Comment comment) {
+    final size = MediaQuery.of(context).size;
+    const widthFactor = 0.9;
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return TimeMachineDialog(
+          comment: comment,
+          size: size,
+          widthFactor: widthFactor,
+        );
+      },
+    );
+  }
+
+  void onSendTapped() {
+    final authBloc = context.read<AuthBloc>();
+    final postCubit = context.read<PostCubit>();
+    final editState = context.read<EditCubit>().state;
+    final replyingTo = editState.replyingTo;
+    final itemEdited = editState.itemBeingEdited;
+
+    if (authBloc.state.isLoggedIn) {
+      final text = commentEditingController.text;
+      if (text.isEmpty) {
+        return;
+      }
+
+      if (itemEdited != null) {
+        postCubit.edit(text: text, id: itemEdited.id);
+      } else if (replyingTo != null) {
+        postCubit.post(text: text, to: replyingTo.id);
+      }
+    } else {
+      onLoginTapped();
+    }
   }
 }

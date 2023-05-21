@@ -6,7 +6,7 @@ class JobAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const icon = Icons.av_timer;
+    const icon = Icons.badge_outlined;
     final avatar = Container(
       margin: const EdgeInsets.only(top: 5, left: 5),
       child: CircleAvatar(
