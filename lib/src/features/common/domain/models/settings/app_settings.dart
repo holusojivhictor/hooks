@@ -9,6 +9,8 @@ class AppSettings with _$AppSettings {
   factory AppSettings({
     required AppThemeType appTheme,
     required AppLanguageType appLanguage,
+    required FetchMode fetchMode,
+    required CommentsOrder commentsOrder,
     required bool useDarkMode,
     required bool isFirstInstall,
     required bool doubleBackToClose,
@@ -18,8 +20,6 @@ class AppSettings with _$AppSettings {
     required bool showUrl,
     required AutoThemeModeType themeMode,
   }) = _AppSettings;
-
-  const AppSettings._();
 
   factory AppSettings.fromJson(Map<String, dynamic> json) => _$AppSettingsFromJson(json);
 }

@@ -11,6 +11,7 @@ import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/item/presentation/widgets/app_bar/custom_app_bar.dart';
+import 'package:hooks/src/features/item/presentation/widgets/buttons/custom_fab.dart';
 import 'package:hooks/src/routing/app_router.dart';
 import 'package:hooks/src/utils/utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -131,6 +132,11 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
             appBar: CustomAppBar(
               backgroundColor: theme.canvasColor.withOpacity(0.6),
               item: widget.item,
+            ),
+            body: Placeholder(),
+            floatingActionButton: CustomFloatingActionButton(
+              itemScrollController: itemScrollController,
+              itemPositionsListener: itemPositionsListener,
             ),
           ),
         );

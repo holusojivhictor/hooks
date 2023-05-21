@@ -17,6 +17,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_Init>(_onInit);
     on<_ThemeChanged>(_onThemeChanged);
     on<_LanguageChanged>(_onLanguageChanged);
+    on<_FetchModeChanged>(_onFetchModeChanged);
+    on<_CommentsOrderChanged>(_onCommentsOrderChanged);
     on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
     on<_MarkReadStoriesChanged>(_onMarkReadStoriesChanged);
     on<_ComplexStoryTileChanged>(_onComplexStoryTileChanged);
@@ -37,6 +39,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       SettingsState.loaded(
         currentTheme: settings.appTheme,
         currentLanguage: settings.appLanguage,
+        fetchMode: settings.fetchMode,
+        commentsOrder: settings.commentsOrder,
         appVersion: _deviceInfoService.version,
         doubleBackToClose: settings.doubleBackToClose,
         markReadStories: settings.markReadStories,
@@ -63,6 +67,22 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     }
     _settingsService.language = event.newValue;
     emit(currentState.copyWith.call(currentLanguage: event.newValue));
+  }
+
+  void _onFetchModeChanged(_FetchModeChanged event, Emitter<SettingsState> emit) {
+    if (event.newValue == _settingsService.fetchMode) {
+      return emit(currentState);
+    }
+    _settingsService.fetchMode = event.newValue;
+    emit(currentState.copyWith.call(fetchMode: event.newValue));
+  }
+
+  void _onCommentsOrderChanged(_CommentsOrderChanged event, Emitter<SettingsState> emit) {
+    if (event.newValue == _settingsService.commentsOrder) {
+      return emit(currentState);
+    }
+    _settingsService.commentsOrder = event.newValue;
+    emit(currentState.copyWith.call(commentsOrder: event.newValue));
   }
 
   void _onDoubleBackToCloseChanged(_DoubleBackToCloseChanged event, Emitter<SettingsState> emit) {
@@ -100,4 +120,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   bool get doubleBackToClose => _settingsService.doubleBackToClose;
+
+  FetchMode get fetchMode => _settingsService.fetchMode;
+
+  CommentsOrder get order => _settingsService.commentsOrder;
 }

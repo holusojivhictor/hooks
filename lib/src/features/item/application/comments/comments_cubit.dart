@@ -28,16 +28,14 @@ class CommentsCubit extends Cubit<CommentsState> {
   CommentsCubit(
     this._storiesService,
     this._dataService,
-    this._logger, {
+    this._logger, this._commentCache, {
     required FilterCubit filterCubit,
     required CollapseCache collapseCache,
-    required CommentCache commentCache,
     required Item item,
     required FetchMode defaultFetchMode,
     required CommentsOrder defaultCommentsOrder,
   })  : _filterCubit = filterCubit,
         _collapseCache = collapseCache,
-        _commentCache = commentCache,
         super(
           CommentsState.init(
             item: item,
@@ -49,9 +47,9 @@ class CommentsCubit extends Cubit<CommentsState> {
   final StoriesService _storiesService;
   final DataService _dataService;
   final LoggingService _logger;
-  final FilterCubit _filterCubit;
-  final CollapseCache _collapseCache;
   final CommentCache _commentCache;
+  final CollapseCache _collapseCache;
+  final FilterCubit _filterCubit;
 
   StreamSubscription<Comment>? _streamSubscription;
 

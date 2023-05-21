@@ -7,6 +7,8 @@ class SettingsState with _$SettingsState {
   const factory SettingsState.loaded({
     required AppThemeType currentTheme,
     required AppLanguageType currentLanguage,
+    required FetchMode fetchMode,
+    required CommentsOrder commentsOrder,
     required String appVersion,
     required bool doubleBackToClose,
     required bool markReadStories,

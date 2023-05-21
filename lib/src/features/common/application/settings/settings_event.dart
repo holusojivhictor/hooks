@@ -12,6 +12,14 @@ class SettingsEvent with _$SettingsEvent {
     required AppLanguageType newValue,
   }) = _LanguageChanged;
 
+  const factory SettingsEvent.fetchModeChanged({
+    required FetchMode newValue,
+  }) = _FetchModeChanged;
+
+  const factory SettingsEvent.commentsOrderChanged({
+    required CommentsOrder newValue,
+  }) = _CommentsOrderChanged;
+
   const factory SettingsEvent.doubleBackToCloseChanged({
     required bool newValue,
   }) = _DoubleBackToCloseChanged;

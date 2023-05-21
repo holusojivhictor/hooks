@@ -14,8 +14,13 @@ abstract class Constants {
 
   static const String errorMessage = 'Something went wrong...';
 
+  static const String wikipediaLink = 'https://en.wikipedia.org/wiki/';
+
+  static const String wiktionaryLink = 'https://en.wiktionary.org/wiki/';
+
   static const String hackerNewsLogoLink =
       'https://pbs.twimg.com/profile_images/469397708986269696/iUrYEOpJ_400x400.png';
+
   static const String guidelineLink = 'https://news.ycombinator.com/newsguidelines.html';
 }
 

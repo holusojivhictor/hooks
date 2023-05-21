@@ -251,6 +251,22 @@ class StoriesService {
     }
   }
 
+  /// Fetch a list of [PollOption] based on ids and return results
+  /// using a stream.
+  Stream<PollOption> fetchPollOptionsStream({required List<int> ids}) async* {
+    for (final id in ids) {
+      final option = await _fetchRawItemJson(id).then((dynamic json) async {
+        if (json == null) return null;
+        final option = PollOption.fromJson(json as Map<String, dynamic>);
+        return option;
+      });
+
+      if (option != null) {
+        yield option;
+      }
+    }
+  }
+
   static Future<Map<String, dynamic>?> _parseJson(
     Map<String, dynamic>? json,
   ) async {

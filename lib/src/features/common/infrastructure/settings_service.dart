@@ -16,6 +16,8 @@ class SettingsService {
   final String _passwordKey = 'Password';
   final String _appThemeKey = 'AppTheme';
   final String _appLanguageKey = 'AppLanguage';
+  final String _fetchModeKey = 'FetchMode';
+  final String _commentsOrderKey = 'CommentsOrder';
   final String _isFirstInstallKey = 'FirstInstall';
   final String _doubleBackToCloseKey = 'DoubleBackToClose';
   final String _autoThemeModeKey = 'AutoThemeMode';
@@ -39,6 +41,14 @@ class SettingsService {
   AppLanguageType get language => AppLanguageType.values[_prefs.getInt(_appLanguageKey)!];
 
   set language(AppLanguageType lang) => _prefs.setInt(_appLanguageKey, lang.index);
+
+  FetchMode get fetchMode => FetchMode.values[_prefs.getInt(_fetchModeKey)!];
+
+  set fetchMode(FetchMode lang) => _prefs.setInt(_fetchModeKey, lang.index);
+
+  CommentsOrder get commentsOrder => CommentsOrder.values[_prefs.getInt(_commentsOrderKey)!];
+
+  set commentsOrder(CommentsOrder lang) => _prefs.setInt(_commentsOrderKey, lang.index);
 
   bool get isFirstInstall => _prefs.getBool(_isFirstInstallKey)!;
 
@@ -77,6 +87,8 @@ class SettingsService {
   AppSettings get appSettings => AppSettings(
     appTheme: appTheme,
     appLanguage: language,
+    fetchMode: fetchMode,
+    commentsOrder: commentsOrder,
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
@@ -113,6 +125,16 @@ class SettingsService {
       language = await _getDefaultLangToUse();
     }
 
+    if (_prefs.get(_fetchModeKey) == null) {
+      _logger.info(runtimeType, 'Default comments fetch mode set to eager');
+      fetchMode = FetchMode.eager;
+    }
+
+    if (_prefs.get(_commentsOrderKey) == null) {
+      _logger.info(runtimeType, 'Default comments order set to natural');
+      commentsOrder = CommentsOrder.natural;
+    }
+
     if (_prefs.get(_doubleBackToCloseKey) == null) {
       _logger.info(runtimeType, 'Double back to close will be set to its default (true)');
       doubleBackToClose = true;
@@ -147,6 +169,7 @@ class SettingsService {
     _logger.info(runtimeType, 'Settings were initialized successfully');
   }
 
+  /// Handle auth
   Future<void> setAuth({
     required String username,
     required String password,
@@ -211,6 +234,8 @@ class SettingsService {
   void updateUnreadCommentsIds(List<int> ids) {
     _prefs.setStringList(_unreadCommentsIdsKey, ids.map((int e) => e.toString()).toList());
   }
+
+  /// Handle voting
 
   Future<AppLanguageType> _getDefaultLangToUse() async {
     try {
