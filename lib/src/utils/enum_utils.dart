@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooks/src/extensions/iterable_extensions.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 
 class TranslatedEnum<TEnum> {
   TranslatedEnum(this.enumValue, this.translation);

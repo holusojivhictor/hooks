@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/utils/utils.dart';
 import 'package:tuple/tuple.dart';
@@ -246,6 +247,22 @@ class StoriesService {
 
       if (story != null) {
         yield story;
+      }
+    }
+  }
+
+  /// Fetch a list of [PollOption] based on ids and return results
+  /// using a stream.
+  Stream<PollOption> fetchPollOptionsStream({required List<int> ids}) async* {
+    for (final id in ids) {
+      final option = await _fetchRawItemJson(id).then((dynamic json) async {
+        if (json == null) return null;
+        final option = PollOption.fromJson(json as Map<String, dynamic>);
+        return option;
+      });
+
+      if (option != null) {
+        yield option;
       }
     }
   }

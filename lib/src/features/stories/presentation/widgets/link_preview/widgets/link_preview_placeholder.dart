@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/styles.dart';
+import 'package:hooks/src/features/common/presentation/theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LinkPreviewPlaceholder extends StatelessWidget {
@@ -11,64 +12,68 @@ class LinkPreviewPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).extension<AppThemeExtension>()!;
     return FadeIn(
-      child: SizedBox(
-        height: height,
-        child: Shimmer.fromColors(
-          baseColor: AppColors.grey3,
-          highlightColor: AppColors.grey1,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  right: 5,
-                  bottom: 5,
-                  top: 5,
-                ),
-                child: ClipRRect(
-                  borderRadius: Styles.defaultCardBorderRadius,
-                  child: Container(
-                    height: height,
-                    width: height,
-                    color: AppColors.white,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: SizedBox(
+          height: height,
+          child: Shimmer.fromColors(
+            baseColor: theme.placeHolderBase!,
+            highlightColor: theme.placeHolderHighlight!,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    right: 5,
+                    bottom: 5,
+                    top: 5,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: Styles.defaultCardBorderRadius,
+                    child: Container(
+                      height: height,
+                      width: height,
+                      color: AppColors.white,
+                    ),
                   ),
                 ),
-              ),
-              const Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 4,
-                    top: 6,
+                const Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 4,
+                      top: 6,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ContainerWithRadius(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                        ),
+                        ContainerWithRadius(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 3),
+                        ),
+                        ContainerWithRadius(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 3),
+                        ),
+                        ContainerWithRadius(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 3),
+                        ),
+                        ContainerWithRadius(
+                          width: 40,
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ContainerWithRadius(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4),
-                      ),
-                      ContainerWithRadius(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      ContainerWithRadius(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      ContainerWithRadius(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 3),
-                      ),
-                      ContainerWithRadius(
-                        width: 40,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

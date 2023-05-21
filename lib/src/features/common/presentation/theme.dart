@@ -182,14 +182,24 @@ class AppTheme {
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   const AppThemeExtension({
     required this.baseTextColor,
+    required this.placeHolderBase,
+    required this.placeHolderHighlight,
   });
 
   final Color? baseTextColor;
+  final Color? placeHolderBase;
+  final Color? placeHolderHighlight;
 
   @override
-  AppThemeExtension copyWith({Color? baseTextColor}) {
+  AppThemeExtension copyWith({
+    Color? baseTextColor,
+    Color? placeHolderBase,
+    Color? placeHolderHighlight,
+  }) {
     return AppThemeExtension(
       baseTextColor: baseTextColor ?? this.baseTextColor,
+      placeHolderBase: placeHolderBase ?? this.placeHolderBase,
+      placeHolderHighlight: placeHolderHighlight ?? this.placeHolderHighlight,
     );
   }
 
@@ -201,6 +211,8 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
 
     return AppThemeExtension(
       baseTextColor: Color.lerp(baseTextColor, other.baseTextColor, t),
+      placeHolderBase: Color.lerp(placeHolderBase, other.placeHolderBase, t),
+      placeHolderHighlight: Color.lerp(placeHolderHighlight, other.placeHolderHighlight, t),
     );
   }
 }

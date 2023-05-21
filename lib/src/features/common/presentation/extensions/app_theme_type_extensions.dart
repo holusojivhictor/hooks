@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
+import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/theme.dart';
 
 extension AppThemeTypeExtensions on AppThemeType {
@@ -16,6 +17,8 @@ extension AppThemeTypeExtensions on AppThemeType {
       extensions: const <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.black,
+          placeHolderBase: AppColors.grey3,
+          placeHolderHighlight: AppColors.grey1,
         ),
       ],
     );
@@ -31,9 +34,11 @@ extension AppThemeTypeExtensions on AppThemeType {
       primaryTextTheme: AppTheme.appMaterialDarkPrimaryTextTheme,
       textTheme: AppTheme.appMaterialDarkTextTheme,
       colorScheme: AppTheme.appMaterialDarkColorScheme,
-      extensions: const <ThemeExtension<dynamic>>[
+      extensions: <ThemeExtension<dynamic>>[
         AppThemeExtension(
           baseTextColor: Colors.white,
+          placeHolderBase: AppColors.variantGrey3,
+          placeHolderHighlight: AppColors.variantGrey1,
         ),
       ],
     );

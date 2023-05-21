@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:devicelocale/devicelocale.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
@@ -7,23 +8,31 @@ import 'package:hooks/src/features/common/infrastructure/logging_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsService {
-  SettingsService(this._logger);
+  SettingsService(this._logger, {
+    FlutterSecureStorage? secureStorage,
+  }) : _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
-  final _appThemeKey = 'AppTheme';
-  final _appLanguageKey = 'AppLanguage';
-  final _isFirstInstallKey = 'FirstInstall';
-  final _doubleBackToCloseKey = 'DoubleBackToClose';
-  final _autoThemeModeKey = 'AutoThemeMode';
-  final _markReadStoriesKey = 'MarkReadStories';
-  final _complexStoryTileKey = 'ComplexStoryTile';
-  final _showMetadataKey = 'ShowMetadata';
-  final _showUrlKey = 'ShowUrl';
-  final _filterKeywordsKey = 'FilterKeywords';
+  final String _usernameKey = 'Username';
+  final String _passwordKey = 'Password';
+  final String _appThemeKey = 'AppTheme';
+  final String _appLanguageKey = 'AppLanguage';
+  final String _fetchModeKey = 'FetchMode';
+  final String _commentsOrderKey = 'CommentsOrder';
+  final String _isFirstInstallKey = 'FirstInstall';
+  final String _doubleBackToCloseKey = 'DoubleBackToClose';
+  final String _autoThemeModeKey = 'AutoThemeMode';
+  final String _markReadStoriesKey = 'MarkReadStories';
+  final String _complexStoryTileKey = 'ComplexStoryTile';
+  final String _showMetadataKey = 'ShowMetadata';
+  final String _showUrlKey = 'ShowUrl';
+  final String _filterKeywordsKey = 'FilterKeywords';
+  final String _unreadCommentsIdsKey = 'UnreadCommentsIds';
 
   bool _initialized = false;
 
   late SharedPreferences _prefs;
   final LoggingService _logger;
+  final FlutterSecureStorage _secureStorage;
 
   AppThemeType get appTheme => AppThemeType.values[_prefs.getInt(_appThemeKey)!];
 
@@ -32,6 +41,14 @@ class SettingsService {
   AppLanguageType get language => AppLanguageType.values[_prefs.getInt(_appLanguageKey)!];
 
   set language(AppLanguageType lang) => _prefs.setInt(_appLanguageKey, lang.index);
+
+  FetchMode get fetchMode => FetchMode.values[_prefs.getInt(_fetchModeKey)!];
+
+  set fetchMode(FetchMode lang) => _prefs.setInt(_fetchModeKey, lang.index);
+
+  CommentsOrder get commentsOrder => CommentsOrder.values[_prefs.getInt(_commentsOrderKey)!];
+
+  set commentsOrder(CommentsOrder lang) => _prefs.setInt(_commentsOrderKey, lang.index);
 
   bool get isFirstInstall => _prefs.getBool(_isFirstInstallKey)!;
 
@@ -61,9 +78,17 @@ class SettingsService {
 
   set autoThemeMode(AutoThemeModeType themeMode) => _prefs.setInt(_autoThemeModeKey, themeMode.index);
 
+  Future<bool> get loggedIn async => await username != null;
+
+  Future<String?> get username async => _secureStorage.read(key: _usernameKey);
+
+  Future<String?> get password async => _secureStorage.read(key: _passwordKey);
+
   AppSettings get appSettings => AppSettings(
     appTheme: appTheme,
     appLanguage: language,
+    fetchMode: fetchMode,
+    commentsOrder: commentsOrder,
     useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
@@ -100,6 +125,16 @@ class SettingsService {
       language = await _getDefaultLangToUse();
     }
 
+    if (_prefs.get(_fetchModeKey) == null) {
+      _logger.info(runtimeType, 'Default comments fetch mode set to eager');
+      fetchMode = FetchMode.eager;
+    }
+
+    if (_prefs.get(_commentsOrderKey) == null) {
+      _logger.info(runtimeType, 'Default comments order set to natural');
+      commentsOrder = CommentsOrder.natural;
+    }
+
     if (_prefs.get(_doubleBackToCloseKey) == null) {
       _logger.info(runtimeType, 'Double back to close will be set to its default (true)');
       doubleBackToClose = true;
@@ -134,6 +169,41 @@ class SettingsService {
     _logger.info(runtimeType, 'Settings were initialized successfully');
   }
 
+  /// Handle auth
+  Future<void> setAuth({
+    required String username,
+    required String password,
+  }) async {
+    const androidOptions = AndroidOptions(resetOnError: true);
+    try {
+      await _secureStorage.write(
+        key: _usernameKey,
+        value: username,
+        aOptions: androidOptions,
+      );
+      await _secureStorage.write(
+        key: _passwordKey,
+        value: password,
+        aOptions: androidOptions,
+      );
+    } catch (_) {
+      try {
+        await _secureStorage.deleteAll(
+          aOptions: androidOptions,
+        );
+      } catch (_) {
+        _logger.error(runtimeType, 'unknown');
+      }
+
+      rethrow;
+    }
+  }
+
+  Future<void> removeAuth() async {
+    await _secureStorage.delete(key: _usernameKey);
+    await _secureStorage.delete(key: _passwordKey);
+  }
+
   bool hasRead(int storyId) {
     final key = _getHasReadKey(storyId);
     final val = _prefs.getBool(key);
@@ -143,10 +213,12 @@ class SettingsService {
     return true;
   }
 
+  /// Update filter keywords
   List<String> get filterKeywords => _prefs.getStringList(_filterKeywordsKey) ?? <String>[];
 
   void updateFilterKeywords(List<String> keywords) => _prefs.setStringList(_filterKeywordsKey, keywords);
 
+  /// Update read stories
   void updateHasRead(int storyId) => _prefs.setBool(_getHasReadKey(storyId), true);
 
   void clearAllReadStories() {
@@ -155,6 +227,39 @@ class SettingsService {
       _prefs.remove(key);
     }
   }
+
+  /// Update unread comments ids
+  List<int> get unreadCommentsIds => _prefs.getStringList(_unreadCommentsIdsKey)?.map(int.parse).toList() ?? <int>[];
+
+  void updateUnreadCommentsIds(List<int> ids) {
+    _prefs.setStringList(_unreadCommentsIdsKey, ids.map((int e) => e.toString()).toList());
+  }
+
+  /// Handle voting
+  bool? vote({required int submittedTo, required String from}) {
+    final key = _getVoteKey(from, submittedTo);
+    final vote = _prefs.getBool(key);
+    return vote;
+  }
+
+  void addVote({
+    required String username,
+    required int id,
+    required bool vote,
+  }) {
+    final key = _getVoteKey(username, id);
+    _prefs.setBool(key, vote);
+  }
+
+  void removeVote({
+    required String username,
+    required int id,
+  }) {
+    final key = _getVoteKey(username, id);
+    _prefs.remove(key);
+  }
+
+  String _getVoteKey(String username, int id) => 'vote_$username-$id';
 
   Future<AppLanguageType> _getDefaultLangToUse() async {
     try {
@@ -183,7 +288,7 @@ class SettingsService {
       );
       return appLang.key;
     } catch (e, s) {
-      _logger.error(runtimeType, '_getDefaultLangToUse: Unknown error occurred', e, s);
+      _logger.error(runtimeType, '_getDefaultLangToUse: Unknown error occurred', ex: e, trace: s);
       return AppLanguageType.english;
     }
   }

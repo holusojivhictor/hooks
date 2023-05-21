@@ -4,7 +4,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks/src/app.dart';
 import 'package:hooks/src/config/injection.dart';
-import 'package:hooks/src/extensions/string_extensions.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';

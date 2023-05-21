@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooks/src/extensions/context_extension.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';

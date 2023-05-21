@@ -1,8 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 extension ContextExtension on BuildContext {
+  T? tryRead<T>() {
+    try {
+      return read<T>();
+    } catch (_) {
+      return null;
+    }
+  }
+
   Rect? get rect {
     final box = findRenderObject() as RenderBox?;
     final rect = box == null ? null : box.localToGlobal(Offset.zero) & box.size;

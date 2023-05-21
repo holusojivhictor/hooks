@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:hooks/src/extensions/context_extension.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/domain/assets.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';

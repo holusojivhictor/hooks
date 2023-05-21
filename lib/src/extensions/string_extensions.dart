@@ -19,9 +19,9 @@ extension StringExtensions on String {
 }
 
 extension OptionalStringExtensions on String? {
-  bool get isNullEmptyOrWhitespace => this == null || this!.isEmpty || this!.trim().isEmpty;
-  bool get isNotNullEmptyOrWhitespace => !isNullEmptyOrWhitespace;
+  bool get isNullOrEmpty => this == null || this!.isEmpty || this!.trim().isEmpty;
+  bool get isNotNullNorEmpty => !isNullOrEmpty;
 
-  bool get isNullEmptyOrWhitespaceOrHasNull => this == null || this!.isEmpty || this!.contains('null');
-  bool get isNotNullEmptyOrWhitespaceNorHasNull => !isNullEmptyOrWhitespaceOrHasNull;
+  bool get isNullOrEmptyOrHasNull => this == null || this!.isEmpty || this!.contains('null');
+  bool get isNotNullNorEmptyNorHasNull => !isNullOrEmptyOrHasNull;
 }
