@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:hooks/src/extensions/date_time_extension.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 
 class Item extends Equatable {
   const Item({

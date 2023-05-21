@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:fast_gbk/fast_gbk.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hooks/src/extensions/string_extensions.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
 import 'package:html/dom.dart' hide Comment, Text;

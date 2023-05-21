@@ -239,7 +239,7 @@ class SettingsService {
       );
       return appLang.key;
     } catch (e, s) {
-      _logger.error(runtimeType, '_getDefaultLangToUse: Unknown error occurred', e, s);
+      _logger.error(runtimeType, '_getDefaultLangToUse: Unknown error occurred', ex: e, trace: s);
       return AppLanguageType.english;
     }
   }

@@ -1,4 +1,4 @@
-import 'package:hooks/src/extensions/string_extensions.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:logger/logger.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -6,7 +6,7 @@ class LoggingService {
   final _logger = Logger();
 
   void info(Type type, String msg, [List<Object>? args]) {
-    assert(!msg.isNullEmptyOrWhitespace, 'Msg cannot be empty');
+    assert(!msg.isNullOrEmpty, 'Msg cannot be empty');
 
     if (args != null && args.isNotEmpty) {
       _logger.i('$type - ${sprintf(msg, args)}');
@@ -16,13 +16,13 @@ class LoggingService {
   }
 
   void warning(Type type, String msg, [dynamic ex, StackTrace? trace]) {
-    assert(!msg.isNullEmptyOrWhitespace, 'Msg cannot be empty');
+    assert(!msg.isNullOrEmpty, 'Msg cannot be empty');
     final tag = type.toString();
     _logger.w('$tag - ${_formatEx(msg, ex)}', ex, trace);
   }
 
-  void error(Type type, String msg, [dynamic ex, StackTrace? trace]) {
-    assert(!msg.isNullEmptyOrWhitespace, 'Msg cannot be empty');
+  void error(Type type, String msg, {dynamic ex, StackTrace? trace}) {
+    assert(!msg.isNullOrEmpty, 'Msg cannot be empty');
     final tag = type.toString();
     _logger.e('$tag - ${_formatEx(msg, ex)}', ex, trace);
   }

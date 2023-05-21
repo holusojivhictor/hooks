@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:hooks/src/extensions/context_extension.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/custom_circular_progress_indicator.dart';
