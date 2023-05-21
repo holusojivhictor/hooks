@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hooks/src/features/auth/application/auth_bloc.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/item/application/bloc.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
+import 'package:hooks/src/features/item/presentation/widgets/parent_item.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MainView extends StatelessWidget {
@@ -50,7 +52,6 @@ class MainView extends StatelessWidget {
 
                     if (state.onlyShowTargetComment == false) {
                       unawaited(context.read<CommentsCubit>().refresh());
-
                       if (state.item.isPoll) {
                         context.read<PollCubit>().refresh();
                       }
@@ -64,25 +65,55 @@ class MainView extends StatelessWidget {
                     padding: EdgeInsets.only(top: topPadding),
                     itemBuilder: (context, index) {
                       if (index == 0) {
-                        return const Placeholder();
+                        return ParentItemSection(
+                          commentEditingController: commentEditingController,
+                          state: state,
+                          authState: authState,
+                          topPadding: topPadding,
+                          onMoreTapped: onMoreTapped,
+                          onRightMoreTapped: onRightMoreTapped,
+                          onReplyTapped: onReplyTapped,
+                        );
                       } else if (index == state.comments.length + 1) {
-                        if ((state.status == CommentsStatus.allLoaded &&
-                            state.comments.isNotEmpty) || state.onlyShowTargetComment) {
+                        if ((state.status == CommentsStatus.allLoaded && state.comments.isNotEmpty) || state.onlyShowTargetComment) {
                           return const SizedBox(
                             height: _trailingBoxHeight,
                             child: Center(
                               child: Text('Nothing found'),
                             ),
                           );
+                        } else {
+                          return const SizedBox.shrink();
                         }
-                      } else {
-                        return const SizedBox.shrink();
                       }
 
-                      return Placeholder();
+                      index = index - 1;
+                      final comment = state.comments.elementAt(index);
+                      return FadeIn(
+                        key: ValueKey<String>('${comment.id}-FadeIn'),
+                        child: Placeholder(),
+                      );
                     },
                   ),
                 ),
+              );
+            },
+          ),
+        ),
+        Positioned(
+          height: 4,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: BlocBuilder<CommentsCubit, CommentsState>(
+            buildWhen: (previous, current) => previous.status != current.status,
+            builder: (BuildContext context, CommentsState state) {
+              return AnimatedOpacity(
+                opacity: state.status == CommentsStatus.loading ? 1 : 0,
+                duration: const Duration(
+                  milliseconds: _loadingIndicatorOpacityAnimationDuration,
+                ),
+                child: const LinearProgressIndicator(),
               );
             },
           ),

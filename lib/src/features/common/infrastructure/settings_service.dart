@@ -236,6 +236,30 @@ class SettingsService {
   }
 
   /// Handle voting
+  bool? vote({required int submittedTo, required String from}) {
+    final key = _getVoteKey(from, submittedTo);
+    final vote = _prefs.getBool(key);
+    return vote;
+  }
+
+  void addVote({
+    required String username,
+    required int id,
+    required bool vote,
+  }) {
+    final key = _getVoteKey(username, id);
+    _prefs.setBool(key, vote);
+  }
+
+  void removeVote({
+    required String username,
+    required int id,
+  }) {
+    final key = _getVoteKey(username, id);
+    _prefs.remove(key);
+  }
+
+  String _getVoteKey(String username, int id) => 'vote_$username-$id';
 
   Future<AppLanguageType> _getDefaultLangToUse() async {
     try {

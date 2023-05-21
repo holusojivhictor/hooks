@@ -16,20 +16,37 @@ class ToastUtils {
     return fToast;
   }
 
-  static void showSucceedToast(FToast toast, String msg) => _showToast(toast, msg, Colors.white, ToastType.succeed);
+  static void showSucceedToast(
+    FToast toast,
+    String msg, {
+    VoidCallback? action,
+  }) => _showToast(toast, msg, Colors.white, ToastType.succeed, action: action);
 
-  static void showInfoToast(FToast toast, String msg) => _showToast(toast, msg, Colors.white, ToastType.info);
+  static void showInfoToast(
+    FToast toast,
+    String msg, {
+    VoidCallback? action,
+  }) => _showToast(toast, msg, Colors.white, ToastType.info, action: action);
 
-  static void showWarningToast(FToast toast, String msg) => _showToast(toast, msg, Colors.white, ToastType.warning);
+  static void showWarningToast(
+    FToast toast,
+    String msg, {
+    VoidCallback? action,
+  }) => _showToast(toast, msg, Colors.white, ToastType.warning, action: action);
 
-  static void showErrorToast(FToast toast, String msg) => _showToast(toast, msg, Colors.white, ToastType.error);
+  static void showErrorToast(
+    FToast toast,
+    String msg, {
+    VoidCallback? action,
+  }) => _showToast(toast, msg, Colors.white, ToastType.error, action: action);
 
   static void _showToast(
-      FToast toast,
-      String msg,
-      Color textColor,
-      ToastType type,
-      ) {
+    FToast toast,
+    String msg,
+    Color textColor,
+    ToastType type, {
+    VoidCallback? action,
+  }) {
     Color bgColor;
     Icon icon;
     switch (type) {
@@ -47,7 +64,7 @@ class ToastUtils {
         icon = const Icon(Icons.dangerous, color: Colors.white);
     }
 
-    final widget = buildToast(msg, textColor, bgColor, icon, toast.context);
+    final widget = buildToast(msg, textColor, bgColor, icon, toast.context, action: action);
     toast.showToast(
       child: widget,
       gravity: ToastGravity.BOTTOM,
@@ -55,26 +72,36 @@ class ToastUtils {
     );
   }
 
-  static Widget buildToast(String msg, Color textColor, Color bgColor, Icon icon, BuildContext? context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: bgColor,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon,
-          const SizedBox(width: 10),
-          Flexible(
-            child: Text(
-              msg,
-              style: TextStyle(color: textColor),
+  static Widget buildToast(
+    String msg,
+    Color textColor,
+    Color bgColor,
+    Icon icon,
+    BuildContext? context, {
+    VoidCallback? action,
+  }) {
+    return InkWell(
+      onTap: action != null ? () => action.call() : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: bgColor,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            const SizedBox(width: 10),
+            Flexible(
+              child: Text(
+                msg,
+                style: TextStyle(color: textColor),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

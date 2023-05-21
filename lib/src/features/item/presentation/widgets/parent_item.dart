@@ -6,10 +6,13 @@ import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/auth/application/auth_bloc.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
+import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/common/presentation/custom_circular_progress_indicator.dart';
 import 'package:hooks/src/features/item/application/bloc.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
+import 'package:hooks/src/features/item/presentation/widgets/poll/poll_view.dart';
 import 'package:hooks/src/features/item/presentation/widgets/text/item_text.dart';
 import 'package:hooks/src/features/stories/domain/models/models.dart';
 import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
@@ -157,7 +160,7 @@ class ParentItemSection extends StatelessWidget {
                         story: state.item as Story,
                       )..init();
                     },
-                    child: Placeholder(),
+                    child: const PollView(),
                   ),
               ],
             ),
@@ -165,7 +168,104 @@ class ParentItemSection extends StatelessWidget {
           if (state.item.text.isNotEmpty)
             const SizedBox(height: 8),
           const Divider(height: 0),
+          if (state.onlyShowTargetComment) ...<Widget>[
+            Center(
+              child: TextButton(
+                onPressed: () => context.read<CommentsCubit>().loadAll(state.item as Story),
+                child: const Text('View all comments'),
+              ),
+            ),
+            const Divider(height: 0),
+          ] else ...<Widget>[
+            Row(
+              children: <Widget>[
+                if (state.item is Story) ...<Widget>[
+                  const SizedBox(width: 12),
+                  Text(
+                    '''${state.item.score} karma, ${state.item.descendants} comment${state.item.descendants > 1 ? 's' : ''}''',
+                    style: textTheme.bodyMedium!.copyWith(fontSize: 13),
+                  ),
+                ] else ...<Widget>[
+                  const SizedBox(width: 4),
+                  SizedBox(
+                    width: _viewParentButtonWidth,
+                    child: TextButton(
+                      onPressed: context.read<CommentsCubit>().loadParentThread,
+                      child: state.fetchParentStatus == CommentsStatus.loading
+                          ? const _LoadingComments()
+                          : Text('View parent', style: textTheme.bodyMedium!.copyWith(fontSize: 13)),
+                    ),
+                  ),
+                  SizedBox(
+                    width: _viewRootButtonWidth,
+                    child: TextButton(
+                      onPressed: context.read<CommentsCubit>().loadRootThread,
+                      child: state.fetchRootStatus == CommentsStatus.loading
+                          ? const _LoadingComments()
+                          : Text('View root', style: textTheme.bodyMedium!.copyWith(fontSize: 13)),
+                    ),
+                  ),
+                ],
+                const Spacer(),
+                DropdownButton<FetchMode>(
+                  value: state.fetchMode,
+                  underline: const SizedBox.shrink(),
+                  items: FetchMode.values.map((FetchMode val) {
+                    return DropdownMenuItem<FetchMode>(
+                      value: val,
+                      child: Text(
+                        val.description,
+                        style: textTheme.bodyMedium!.copyWith(fontSize: 13),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: context.read<CommentsCubit>().onFetchModeChanged,
+                ),
+                const SizedBox(width: 6),
+                DropdownButton<CommentsOrder>(
+                  value: state.order,
+                  underline: const SizedBox.shrink(),
+                  items: CommentsOrder.values.map((CommentsOrder val) {
+                    return DropdownMenuItem<CommentsOrder>(
+                      value: val,
+                      child: Text(
+                        val.description,
+                        style: textTheme.bodyMedium!.copyWith(fontSize: 13),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: context.read<CommentsCubit>().onOrderChanged,
+                ),
+                const SizedBox(width: 4),
+              ],
+            ),
+            const Divider(height: 0),
+          ],
+          if (state.comments.isEmpty && state.status == CommentsStatus.allLoaded) ...<Widget>[
+            const SizedBox(height: 240),
+            const Center(
+              child: Text(
+                'Nothing yet',
+                style: TextStyle(color: AppColors.grey4),
+              ),
+            ),
+          ]
         ],
+      ),
+    );
+  }
+}
+
+class _LoadingComments extends StatelessWidget {
+  const _LoadingComments();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 12,
+      width: 12,
+      child: CustomCircularProgressIndicator(
+        strokeWidth: 2,
       ),
     );
   }
