@@ -215,7 +215,10 @@ class ParentItemSection extends StatelessWidget {
                       value: val,
                       child: Text(
                         val.description,
-                        style: textTheme.bodyMedium!.copyWith(fontSize: 13),
+                        style: textTheme.bodyMedium!.copyWith(
+                          fontSize: 13,
+                          color: Colors.black87,
+                        ),
                       ),
                     );
                   }).toList(),
@@ -230,7 +233,10 @@ class ParentItemSection extends StatelessWidget {
                       value: val,
                       child: Text(
                         val.description,
-                        style: textTheme.bodyMedium!.copyWith(fontSize: 13),
+                        style: textTheme.bodyMedium!.copyWith(
+                          fontSize: 13,
+                          color: Colors.black87,
+                        ),
                       ),
                     );
                   }).toList(),

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks/src/features/auth/infrastructure/auth_service.dart';
 import 'package:hooks/src/features/common/infrastructure/caches/caches.dart';
@@ -33,6 +34,10 @@ class Injection {
     getIt.registerSingleton<PostService>(postService);
 
     final storiesService = StoriesService();
-    getIt.registerSingleton<StoriesService>(storiesService);
+    getIt
+      ..registerSingleton<StoriesService>(storiesService)
+      ..registerSingleton<RouteObserver<ModalRoute<dynamic>>>(
+        RouteObserver<ModalRoute<dynamic>>(),
+      );
   }
 }

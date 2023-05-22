@@ -55,7 +55,7 @@ class StoryTile extends StatelessWidget {
                     color: AppColors.grey5,
                     fontWeight: FontWeight.w500,
                   )
-                : textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w500),
+                : textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
       );

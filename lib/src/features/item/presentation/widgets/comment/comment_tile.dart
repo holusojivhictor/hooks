@@ -278,13 +278,13 @@ class CommentTile extends StatelessWidget {
       level = level - 10;
     }
 
-    const r = 255;
-    var g = level * 40 < 255 ? 152 : (level * 20).clamp(0, 255);
-    var b = (level * 40).clamp(0, 255);
+    var r = level * 40 < 255 ? 152 : (level * 20).clamp(0, 255);
+    var g = (level * 40).clamp(0, 255);
+    final b = (level * 40).clamp(0, 255);
 
-    if (g == 255 && b == 255) {
-      g = (level * 30 - 255).clamp(0, 255);
-      b = (level * 40 - 255).clamp(0, 255);
+    if (r == 255 && g == 255) {
+      r = (level * 30 - 255).clamp(0, 255);
+      g = (level * 40 - 255).clamp(0, 255);
     }
 
     final color = Color.fromRGBO(r, g, b, 1);

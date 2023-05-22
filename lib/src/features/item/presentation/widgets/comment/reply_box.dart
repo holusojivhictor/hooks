@@ -212,7 +212,7 @@ class _ReplyBoxState extends State<ReplyBox> {
         return AlertDialog(
           title: const Text('Save draft?'),
           actions: <Widget>[
-            TextButton(
+            OutlinedButton(
               onPressed: () {
                 context.read<EditCubit>().deleteDraft();
                 Navigator.pop(context);
@@ -224,7 +224,7 @@ class _ReplyBoxState extends State<ReplyBox> {
                 ),
               ),
             ),
-            TextButton(
+            OutlinedButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('Yes'),
             ),
@@ -276,9 +276,11 @@ class _ReplyBoxState extends State<ReplyBox> {
                           setState(() {
                             expanded = false;
                           });
-                          context.go(AppRoute.item.name);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
 
                           goToItemScreen(
+                            context: context,
                             args: ItemPageArgs(
                               item: replyingTo,
                               useCommentCache: true,

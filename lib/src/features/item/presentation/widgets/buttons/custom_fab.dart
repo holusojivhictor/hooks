@@ -24,7 +24,7 @@ class CustomFloatingActionButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             FloatingActionButton.small(
-              backgroundColor: theme.scaffoldBackgroundColor,
+              backgroundColor: theme.canvasColor.withOpacity(0.8),
               heroTag: UniqueKey().hashCode,
               onPressed: () {
                 if (state.status == CommentsStatus.loading) return;
@@ -36,14 +36,14 @@ class CustomFloatingActionButton extends StatelessWidget {
                 );
               },
               child: Icon(
-                Icons.arrow_upward,
+                Icons.keyboard_arrow_up,
                 color: state.status == CommentsStatus.loading
-                    ? AppColors.grey4
-                    : theme.colorScheme.primary,
+                    ? AppColors.grey3
+                    : AppColors.variantBlack,
               ),
             ),
             FloatingActionButton.small(
-              backgroundColor: theme.scaffoldBackgroundColor,
+              backgroundColor: theme.canvasColor.withOpacity(0.8),
               heroTag: UniqueKey().hashCode,
               onPressed: () {
                 if (state.status == CommentsStatus.loading) return;
@@ -55,10 +55,10 @@ class CustomFloatingActionButton extends StatelessWidget {
                 );
               },
               child: Icon(
-                Icons.arrow_downward,
+                Icons.keyboard_arrow_down,
                 color: state.status == CommentsStatus.loading
-                    ? AppColors.grey4
-                    : theme.colorScheme.primary,
+                    ? AppColors.grey3
+                    : AppColors.variantBlack,
               ),
             ),
           ],

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks/src/app.dart';
 import 'package:hooks/src/config/injection.dart';
-import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -23,19 +22,10 @@ Future<void> main() async {
 void registerErrorHandlers() {
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    getIt<LoggingService>().error(
-      details.runtimeType,
-      details.summary.toString(),
-      ex: details.exceptionAsString(),
-      trace: details.stack,
-    );
+    debugPrint(details.toString());
   };
   PlatformDispatcher.instance.onError = (Object error, StackTrace stack) {
-    getIt<LoggingService>().error(
-      error.runtimeType,
-      error.toString(),
-      trace: stack,
-    );
+    debugPrint(error.toString());
     return true;
   };
 

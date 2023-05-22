@@ -137,7 +137,7 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
             extendBodyBehindAppBar: true,
             resizeToAvoidBottomInset: true,
             appBar: CustomAppBar(
-              backgroundColor: theme.canvasColor.withOpacity(0.6),
+              backgroundColor: theme.scaffoldBackgroundColor,
               item: widget.item,
             ),
             body: MainView(
@@ -215,6 +215,7 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
                     onTap: () {
                       Navigator.pop(context);
                       goToItemScreen(
+                        context: context,
                         args: ItemPageArgs(
                           item: comment,
                           useCommentCache: true,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks/src/app.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/routing/app_router.dart';
@@ -8,8 +7,9 @@ import 'package:hooks/src/routing/app_router.dart';
 extension StateExtensions on State {
   Future<void>? goToItemScreen({
     required ItemPageArgs args,
+    required BuildContext context,
   }) {
-    return HooksApp.navigatorKey.currentContext?.pushNamed(
+    return context.pushNamed(
       AppRoute.item.name,
       extra: args,
     );

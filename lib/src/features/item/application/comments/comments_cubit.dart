@@ -6,8 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks/src/app.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
@@ -249,8 +247,7 @@ class CommentsCubit extends Cubit<CommentsState> {
     if (parent == null) {
       return;
     } else {
-      // TODO(morpheus): Monitor comments push (1)
-      await HooksApp.navigatorKey.currentContext?.pushNamed(
+      await AppRouter.router.pushNamed(
         AppRoute.item.name,
         extra: ItemPageArgs(item: parent),
       );
@@ -273,8 +270,7 @@ class CommentsCubit extends Cubit<CommentsState> {
     if (parent == null) {
       return;
     } else {
-      // TODO(morpheus): Monitor comments push (2)
-      await HooksApp.navigatorKey.currentContext?.pushNamed(
+      await AppRouter.router.pushNamed(
         AppRoute.item.name,
         extra: ItemPageArgs(item: parent),
       );

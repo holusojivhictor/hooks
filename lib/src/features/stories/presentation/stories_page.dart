@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hooks/src/app.dart';
 import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
@@ -97,10 +96,7 @@ class _StoriesPageState extends State<StoriesPage> with SingleTickerProviderStat
     } else {
       final args = ItemPageArgs(item: story);
 
-      HooksApp.navigatorKey.currentContext?.pushNamed(
-        AppRoute.item.name,
-        extra: args,
-      );
+      context.pushNamed(AppRoute.item.name, extra: args);
     }
 
     if (story.url.isNotEmpty && isJobWithLink) {

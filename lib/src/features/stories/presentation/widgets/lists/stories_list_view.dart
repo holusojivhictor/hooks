@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/enums/enums.dart';
 import 'package:hooks/src/features/common/presentation/loading/loading.dart';
@@ -63,6 +64,7 @@ class _StoriesListViewState extends State<StoriesListView> {
                 markReadStories: settingsState.markReadStories,
                 items: state.storiesByType[storyType]!,
                 onTap: onStoryTapped,
+                onMoreTapped: onMoreTapped,
                 onRefresh: () {
                   HapticFeedback.lightImpact();
                   context

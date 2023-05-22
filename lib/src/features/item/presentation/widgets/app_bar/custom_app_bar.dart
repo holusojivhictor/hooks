@@ -9,6 +9,7 @@ class CustomAppBar extends AppBar {
     super.key,
   }) : super(
     elevation: 0,
+    scrolledUnderElevation: 0,
     actions: [
       LinkIconButton(storyId: item.id),
     ],

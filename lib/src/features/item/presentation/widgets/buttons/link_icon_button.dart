@@ -13,7 +13,7 @@ class LinkIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       tooltip: 'Open this story in browser',
-      icon: const Icon(Icons.stream),
+      icon: const Icon(Icons.public),
       onPressed: () => LinkUtils.launch(
         'https://news.ycombinator.com/item?id=$storyId',
         useAppForHnLink: false,

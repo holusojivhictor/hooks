@@ -45,11 +45,6 @@ class _MobileScaffoldState extends State<MobileScaffold> {
           currentIndex: _selectedIndex,
           items: const [
             NavigationBarItem(
-              icon: Icon(Icons.work_outline),
-              activeIcon: Icon(Icons.work),
-              title: 'Home',
-            ),
-            NavigationBarItem(
               icon: Icon(Icons.auto_stories_outlined),
               activeIcon: Icon(Icons.auto_stories),
               title: 'Stories',
@@ -72,10 +67,8 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     }
     setState(() => _selectedIndex = index);
     if (index == 0) {
-      context.goNamed(AppRoute.home.name);
-    } else if (index == 1) {
       context.goNamed(AppRoute.items.name);
-    } else if (index == 2) {
+    } else if (index == 1) {
       context.goNamed(AppRoute.settings.name);
     }
   }

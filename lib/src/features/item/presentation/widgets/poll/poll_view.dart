@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:hooks/src/config/injection.dart';
+import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/auth/application/auth_bloc.dart';
 import 'package:hooks/src/features/auth/infrastructure/auth_service.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
@@ -130,11 +131,10 @@ class _PollViewState extends State<PollView> {
     } else if (state.status == VoteStatus.failureKarmaBelowThreshold) {
       ToastUtils.showInfoToast(fToast, "You can't downvote due to low karma.");
     } else if (state.status == VoteStatus.failureNotLoggedIn) {
-      // TODO(morpheus): Add login dialog
       ToastUtils.showInfoToast(
         fToast,
         'Not logged in, no voting! Tap this to login.',
-        action: () {},
+        action: onLoginTapped,
       );
     } else if (state.status == VoteStatus.failureBeHumble) {
       ToastUtils.showInfoToast(fToast, 'No voting on your own post!');
