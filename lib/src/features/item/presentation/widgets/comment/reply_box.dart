@@ -2,14 +2,12 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/item/presentation/widgets/text/item_text.dart';
-import 'package:hooks/src/routing/app_router.dart';
 
 class ReplyBox extends StatefulWidget {
   const ReplyBox({
@@ -177,6 +175,9 @@ class _ReplyBoxState extends State<ReplyBox> {
                           autofocus: true,
                           controller: widget.textEditingController,
                           maxLines: 100,
+                          style: const TextStyle(
+                            color: Colors.black87,
+                          ),
                           decoration: const InputDecoration(
                             alignLabelWithHint: true,
                             contentPadding: EdgeInsets.zero,
@@ -210,7 +211,11 @@ class _ReplyBoxState extends State<ReplyBox> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Save draft?'),
+          surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+          title: const Text(
+            'Save draft?',
+            style: TextStyle(color: AppColors.grey7),
+          ),
           actions: <Widget>[
             OutlinedButton(
               onPressed: () {
@@ -247,6 +252,7 @@ class _ReplyBoxState extends State<ReplyBox> {
             horizontal: 12,
             vertical: 24,
           ),
+          surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
           contentPadding: EdgeInsets.zero,
           content: ConstrainedBox(
             constraints: const BoxConstraints(
@@ -262,14 +268,16 @@ class _ReplyBoxState extends State<ReplyBox> {
                       Text(
                         replyingTo.by,
                         style: textTheme.bodyMedium!.copyWith(
-                          color: AppColors.grey4,
+                          color: AppColors.grey6,
                         ),
                       ),
                       const Spacer(),
                       TextButton(
                         child: Text(
                           'View thread',
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: Colors.black87,
+                          ),
                         ),
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -291,7 +299,9 @@ class _ReplyBoxState extends State<ReplyBox> {
                       TextButton(
                         child: Text(
                           'Copy all',
-                          style: textTheme.bodyMedium,
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: Colors.black87,
+                          ),
                         ),
                         onPressed: () => FlutterClipboard.copy(
                           replyingTo.text,
@@ -320,6 +330,7 @@ class _ReplyBoxState extends State<ReplyBox> {
                       child: SingleChildScrollView(
                         child: ItemText(
                           item: replyingTo,
+                          color: Colors.black87,
                         ),
                       ),
                     ),

@@ -15,7 +15,6 @@ import 'package:hooks/src/features/item/presentation/widgets/buttons/custom_fab.
 import 'package:hooks/src/features/item/presentation/widgets/comment/reply_box.dart';
 import 'package:hooks/src/features/item/presentation/widgets/comment/time_machine_dialog.dart';
 import 'package:hooks/src/features/item/presentation/widgets/main_view.dart';
-import 'package:hooks/src/routing/app_router.dart';
 import 'package:hooks/src/utils/utils.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -88,8 +87,7 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
               listener: (context, postState) {
                 final fToast = ToastUtils.of(context);
                 if (postState.status == PostStatus.successful) {
-                  // TODO(morpheus): Monitor pop
-                  context.go(AppRoute.item.name);
+                  context.pop();
 
                   final verb =
                       context.read<EditCubit>().state.replyingTo == null
@@ -101,7 +99,7 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
                   context.read<EditCubit>().onReplySubmittedSuccessfully();
                   context.read<PostCubit>().reset();
                 } else if (postState.status == PostStatus.failure) {
-                  context.go(AppRoute.item.name);
+                  context.pop();
 
                   ToastUtils.showErrorToast(fToast, Constants.errorMessage);
                   context.read<PostCubit>().reset();
