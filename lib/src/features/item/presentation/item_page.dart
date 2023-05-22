@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/extensions/extensions.dart';
-import 'package:hooks/src/features/auth/application/auth_bloc.dart';
+import 'package:hooks/src/features/auth/application/auth/auth_bloc.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';

@@ -25,7 +25,7 @@ class TimeMachineDialog extends StatelessWidget {
         builder: (context, state) {
           return Center(
             child: Material(
-              color: Theme.of(context).canvasColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: const BorderRadius.all(Radius.circular(4)),
               child: SizedBox(
                 height: size.height * 0.8,

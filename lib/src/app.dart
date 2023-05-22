@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/features/app_widget.dart';
-import 'package:hooks/src/features/auth/application/auth_bloc.dart';
+import 'package:hooks/src/features/auth/application/bloc.dart';
 import 'package:hooks/src/features/auth/infrastructure/auth_service.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/infrastructure/caches/caches.dart';
@@ -41,12 +41,6 @@ class HooksApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (ctx) {
-            final settingsService = getIt<SettingsService>();
-            return BlocklistCubit(settingsService);
-          },
-        ),
-        BlocProvider(
-          create: (ctx) {
             final storiesService = getIt<StoriesService>();
             final settingsService = getIt<SettingsService>();
             return StoriesBloc(
@@ -54,6 +48,25 @@ class HooksApp extends StatelessWidget {
               settingsService,
               ctx.read<FilterCubit>(),
             );
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final authService = getIt<AuthService>();
+            final settingsService = getIt<SettingsService>();
+            final storiesService = getIt<StoriesService>();
+            return FavCubit(
+              authService,
+              settingsService,
+              storiesService,
+              ctx.read<AuthBloc>(),
+            );
+          },
+        ),
+        BlocProvider(
+          create: (ctx) {
+            final settingsService = getIt<SettingsService>();
+            return BlocklistCubit(settingsService);
           },
         ),
         BlocProvider(

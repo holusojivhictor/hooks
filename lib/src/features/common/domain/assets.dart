@@ -4,7 +4,9 @@ class Assets {
   const Assets._();
 
   static const String _imagePath = 'assets/images';
+  static const String _gifsPath = 'assets/gifs';
   static const String hackerNewsLogoPath = '$_imagePath/hacker_news_logo.png';
+  static const String loading = '$_gifsPath/loading.gif';
 
   static AppThemeType translateThemeTypeBool({required bool value}) {
     switch (value) {
