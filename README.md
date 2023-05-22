@@ -23,7 +23,18 @@ $ flutter pub run build_runner build
 
 ## Features
 
-- _Coming soon_
+- Browse news stories of different types.
+- Browse user comments.
+- Upvote and downvote comments and stories.
+- Log in with your HN account to gain access to specific actions.
+- Multiple theming options.
+- Persist likes and other data across app use.
+- ...
+
+## Coming
+
+- [ ] Add tests
+- [ ] Conclude nested navigation state (GoRouter)
 
 _\*Hooks works on iOS, Android, and Web_
 
