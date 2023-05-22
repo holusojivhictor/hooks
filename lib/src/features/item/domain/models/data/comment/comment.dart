@@ -1,0 +1,47 @@
+import 'package:hooks/src/features/common/domain/models/models.dart';
+
+class Comment extends Item {
+  Comment({
+    required super.id,
+    required super.time,
+    required super.score,
+    required super.parent,
+    required super.deleted,
+    required super.dead,
+    required super.hidden,
+    required super.by,
+    required super.text,
+    required super.kids,
+    required this.level,
+  }) : super(descendants: 0, parts: <int>[], title: '', url: '', type: '');
+
+  Comment.fromJson(super.json, {this.level = 0}) : super.fromJson();
+
+  final int level;
+
+  String get metadata => '''by $by $timeAgo''';
+
+  bool get isRoot => level == 0;
+
+  Comment copyWith({
+    int? level,
+    bool? hidden,
+  }) {
+    return Comment(
+      id: id,
+      time: time,
+      parent: parent,
+      score: score,
+      by: by,
+      text: text,
+      kids: kids,
+      dead: dead,
+      deleted: deleted,
+      hidden: hidden ?? this.hidden,
+      level: level ?? this.level,
+    );
+  }
+
+  @override
+  bool? get stringify => false;
+}
