@@ -9,6 +9,12 @@ Hooks mobile app.
 
 ---
 
+## App distribution
+
+The app is available in an installable format here:
+
+- [Firebase App Distribution][app_distribution_link]
+
 ## Getting Started 🚀
 
 You can build and run the project by following these steps:
@@ -45,5 +51,6 @@ _\*Hooks works on iOS, Android, and Web_
 [coverage_badge]: coverage_badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license_link]: https://opensource.org/licenses/MIT
+[app_distribution_link]: https://appdistribution.firebase.google.com/testerapps/1:140973219843:android:9425abc2d8b277fd622e36/releases/0qf5s05r4tkkg?utm_source=firebase-console
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis

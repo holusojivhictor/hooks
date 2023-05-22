@@ -9,17 +9,21 @@ class ItemText extends StatelessWidget {
   const ItemText({
     required this.item,
     super.key,
+    this.color,
     this.onTap,
   });
 
   final Item item;
+  final Color? color;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final style = textTheme.bodyLarge!;
+    final style = textTheme.bodyLarge!.copyWith(
+      color: color,
+    );
     final linkStyle = style.copyWith(
       decoration: TextDecoration.underline,
       color: AppColors.primary,
