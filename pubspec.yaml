@@ -60,11 +60,13 @@ dependencies:
       ref: main
 
 dev_dependencies:
+  bloc_test: ^9.1.2
   build_runner:
   flutter_test:
     sdk: flutter
   freezed: ^2.3.4
   json_serializable: ^6.7.0
+  mocktail: ^0.3.0
   very_good_analysis: ^5.0.0
 
 
