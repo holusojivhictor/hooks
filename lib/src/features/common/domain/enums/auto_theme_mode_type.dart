@@ -1,5 +1,5 @@
 enum AutoThemeModeType {
-  on('Follow OS setting'),
+  on('On'),
   off('Off');
 
   const AutoThemeModeType(this.translate);

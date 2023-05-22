@@ -4,10 +4,12 @@ import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/theme.dart';
 
 extension AppThemeTypeExtensions on AppThemeType {
-  ThemeData getLightTheme() {
+  ThemeData lightTheme() {
     return ThemeData(
       useMaterial3: true,
-      textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.black),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.black,
+      ),
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF1F1F1),
       typography: AppTheme.appMaterialTypography,
@@ -24,12 +26,14 @@ extension AppThemeTypeExtensions on AppThemeType {
     );
   }
 
-  ThemeData getDarkTheme() {
-    return ThemeData(
+  ThemeData darkTheme({bool useDarkAmoled = false}) {
+    final base = ThemeData(
       useMaterial3: true,
-      textSelectionTheme: const TextSelectionThemeData(cursorColor: Colors.white),
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.white,
+      ),
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: const Color(0xFF000000),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 20, 20, 20),
       typography: AppTheme.appMaterialTypography,
       primaryTextTheme: AppTheme.appMaterialDarkPrimaryTextTheme,
       textTheme: AppTheme.appMaterialDarkTextTheme,
@@ -42,14 +46,22 @@ extension AppThemeTypeExtensions on AppThemeType {
         ),
       ],
     );
+
+    if (!useDarkAmoled) {
+      return base;
+    }
+
+    return base.copyWith(
+      scaffoldBackgroundColor: const Color(0xFF000000),
+    );
   }
 
-  ThemeData getThemeData(AppThemeType theme) {
-    switch (theme) {
+  ThemeData getThemeData({bool useDarkAmoled = false}) {
+    switch (this) {
       case AppThemeType.light:
-        return getLightTheme();
+        return lightTheme();
       case AppThemeType.dark:
-        return getDarkTheme();
+        return darkTheme(useDarkAmoled: useDarkAmoled);
     }
   }
 }

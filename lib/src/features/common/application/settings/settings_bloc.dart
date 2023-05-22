@@ -20,6 +20,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     on<_FetchModeChanged>(_onFetchModeChanged);
     on<_CommentsOrderChanged>(_onCommentsOrderChanged);
     on<_DoubleBackToCloseChanged>(_onDoubleBackToCloseChanged);
+    on<_UseDarkAmoledChanged>(_onUseDarkAmoledChanged);
     on<_MarkReadStoriesChanged>(_onMarkReadStoriesChanged);
     on<_ComplexStoryTileChanged>(_onComplexStoryTileChanged);
     on<_TapToCollapseChanged>(_onTapToCollapseChanged);
@@ -44,6 +45,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         commentsOrder: settings.commentsOrder,
         appVersion: _deviceInfoService.version,
         doubleBackToClose: settings.doubleBackToClose,
+        useDarkAmoled: settings.useDarkAmoled,
         markReadStories: settings.markReadStories,
         complexStoryTile: settings.complexStoryTile,
         tapAnywhereToCollapse: settings.tapAnywhereToCollapse,
@@ -90,6 +92,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   void _onDoubleBackToCloseChanged(_DoubleBackToCloseChanged event, Emitter<SettingsState> emit) {
     _settingsService.doubleBackToClose = event.newValue;
     emit(currentState.copyWith.call(doubleBackToClose: event.newValue));
+  }
+
+  void _onUseDarkAmoledChanged(_UseDarkAmoledChanged event, Emitter<SettingsState> emit) {
+    _appBloc.add(AppEvent.useDarkAmoledChanged(newValue: event.newValue));
+    _settingsService.useDarkAmoled = event.newValue;
+    emit(currentState.copyWith.call(useDarkAmoled: event.newValue));
   }
 
   void _onMarkReadStoriesChanged(_MarkReadStoriesChanged event, Emitter<SettingsState> emit) {

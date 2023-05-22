@@ -192,40 +192,37 @@ class _ItemPageState extends State<ItemPage> with RouteAware {
       context: context,
       builder: (BuildContext context) {
         return SafeArea(
-          child: ColoredBox(
-            color: Theme.of(context).canvasColor,
-            child: Material(
-              color: Colors.transparent,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: const Icon(Icons.av_timer),
-                    title: const Text('View ancestors'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      onTimeMachineActivated(comment);
-                    },
-                    enabled:
-                    comment.level > 0 && !(comment.dead || comment.deleted),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.list),
-                    title: const Text('View in separate thread'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      goToItemScreen(
-                        context: context,
-                        args: ItemPageArgs(
-                          item: comment,
-                          useCommentCache: true,
-                        ),
-                      );
-                    },
-                    enabled: !(comment.dead || comment.deleted),
-                  ),
-                ],
-              ),
+          child: Material(
+            color: Colors.transparent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.av_timer),
+                  title: const Text('View ancestors'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onTimeMachineActivated(comment);
+                  },
+                  enabled:
+                  comment.level > 0 && !(comment.dead || comment.deleted),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.list),
+                  title: const Text('View in separate thread'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    goToItemScreen(
+                      context: context,
+                      args: ItemPageArgs(
+                        item: comment,
+                        useCommentCache: true,
+                      ),
+                    );
+                  },
+                  enabled: !(comment.dead || comment.deleted),
+                ),
+              ],
             ),
           ),
         );

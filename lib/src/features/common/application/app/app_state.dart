@@ -8,6 +8,7 @@ class AppState with _$AppState {
     required String appTitle,
     required AppThemeType theme,
     required AutoThemeModeType autoThemeMode,
+    required bool useDarkAmoled,
     required bool initialized,
     required bool firstInstall,
     required bool versionChanged,

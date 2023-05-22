@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
-import 'package:hooks/src/app.dart';
 import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/extensions/extensions.dart';
 import 'package:hooks/src/features/common/domain/constants.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
+import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/stories/infrastructure/stories_service.dart';
+import 'package:hooks/src/routing/app_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LinkUtils {
@@ -71,7 +71,10 @@ class LinkUtils {
     if (id != null) {
       await getIt<StoriesService>().fetchItem(id: id).then((Item? item) {
         if (item != null) {
-          HooksApp.navigatorKey.currentContext!.goNamed('/item');
+          AppRouter.router.pushNamed(
+            AppRoute.item.name,
+            extra: ItemPageArgs(item: item),
+          );
         }
       });
     } else {

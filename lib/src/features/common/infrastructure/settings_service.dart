@@ -20,6 +20,7 @@ class SettingsService {
   final String _commentsOrderKey = 'CommentsOrder';
   final String _isFirstInstallKey = 'FirstInstall';
   final String _doubleBackToCloseKey = 'DoubleBackToClose';
+  final String _useDarkAmoledKey = 'UseDarkAmoled';
   final String _autoThemeModeKey = 'AutoThemeMode';
   final String _markReadStoriesKey = 'MarkReadStories';
   final String _complexStoryTileKey = 'ComplexStoryTile';
@@ -60,6 +61,10 @@ class SettingsService {
 
   set doubleBackToClose(bool value) => _prefs.setBool(_doubleBackToCloseKey, value);
 
+  bool get useDarkAmoled => _prefs.getBool(_useDarkAmoledKey)!;
+
+  set useDarkAmoled(bool value) => _prefs.setBool(_useDarkAmoledKey, value);
+
   bool get markReadStories => _prefs.getBool(_markReadStoriesKey)!;
 
   set markReadStories(bool value) => _prefs.setBool(_markReadStoriesKey, value);
@@ -95,9 +100,9 @@ class SettingsService {
     appLanguage: language,
     fetchMode: fetchMode,
     commentsOrder: commentsOrder,
-    useDarkMode: false,
     isFirstInstall: isFirstInstall,
     doubleBackToClose: doubleBackToClose,
+    useDarkAmoled: useDarkAmoled,
     markReadStories: markReadStories,
     complexStoryTile: complexStoryTile,
     tapAnywhereToCollapse: tapAnywhereToCollapse,
@@ -147,6 +152,11 @@ class SettingsService {
       doubleBackToClose = true;
     }
 
+    if (_prefs.get(_useDarkAmoledKey) == null) {
+      _logger.info(runtimeType, 'Use dark amoled set to default (false)');
+      useDarkAmoled = false;
+    }
+
     if (_prefs.get(_markReadStoriesKey) == null) {
       _logger.info(runtimeType, 'Mark read stories set to default (true)');
       markReadStories = true;
@@ -173,8 +183,8 @@ class SettingsService {
     }
 
     if (_prefs.get(_autoThemeModeKey) == null) {
-      _logger.info(runtimeType, 'Auto theme mode set to false as default');
-      autoThemeMode = AutoThemeModeType.off;
+      _logger.info(runtimeType, 'Auto theme mode set to true as default');
+      autoThemeMode = AutoThemeModeType.on;
     }
 
     _initialized = true;

@@ -210,6 +210,7 @@ class ParentItemSection extends StatelessWidget {
                 DropdownButton<FetchMode>(
                   value: state.fetchMode,
                   underline: const SizedBox.shrink(),
+                  dropdownColor: Theme.of(context).scaffoldBackgroundColor,
                   items: FetchMode.values.map((FetchMode val) {
                     return DropdownMenuItem<FetchMode>(
                       value: val,
@@ -217,7 +218,6 @@ class ParentItemSection extends StatelessWidget {
                         val.description,
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 13,
-                          color: Colors.black87,
                         ),
                       ),
                     );
@@ -228,6 +228,7 @@ class ParentItemSection extends StatelessWidget {
                 DropdownButton<CommentsOrder>(
                   value: state.order,
                   underline: const SizedBox.shrink(),
+                  dropdownColor: Theme.of(context).scaffoldBackgroundColor,
                   items: CommentsOrder.values.map((CommentsOrder val) {
                     return DropdownMenuItem<CommentsOrder>(
                       value: val,
@@ -235,7 +236,6 @@ class ParentItemSection extends StatelessWidget {
                         val.description,
                         style: textTheme.bodyMedium!.copyWith(
                           fontSize: 13,
-                          color: Colors.black87,
                         ),
                       ),
                     );

@@ -10,7 +10,7 @@ class JobAvatar extends StatelessWidget {
     final avatar = Container(
       margin: const EdgeInsets.only(top: 5, left: 5),
       child: CircleAvatar(
-        radius: 10,
+        radius: 12,
         backgroundColor: theme.colorScheme.primary,
         child: const Icon(icon, color: Colors.white, size: 16),
       ),

@@ -24,6 +24,11 @@ class SettingsEvent with _$SettingsEvent {
     required bool newValue,
   }) = _DoubleBackToCloseChanged;
 
+  const factory SettingsEvent.useDarkAmoledChanged({
+    required bool newValue,
+  }) = _UseDarkAmoledChanged;
+
+
   const factory SettingsEvent.markReadStoriesChanged({
     required bool newValue,
   }) = _MarkReadStoriesChanged;

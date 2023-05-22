@@ -11,4 +11,8 @@ class AppEvent with _$AppEvent {
   const factory AppEvent.themeModeChanged({
     required AutoThemeModeType newValue,
   }) = _ThemeModeChanged;
+
+  const factory AppEvent.useDarkAmoledChanged({
+    required bool newValue,
+  }) = _UseDarkAmoledChanged;
 }

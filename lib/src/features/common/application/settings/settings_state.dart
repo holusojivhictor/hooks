@@ -11,6 +11,7 @@ class SettingsState with _$SettingsState {
     required CommentsOrder commentsOrder,
     required String appVersion,
     required bool doubleBackToClose,
+    required bool useDarkAmoled,
     required bool markReadStories,
     required bool complexStoryTile,
     required bool tapAnywhereToCollapse,

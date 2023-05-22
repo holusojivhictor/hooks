@@ -21,7 +21,7 @@ class AppSettingsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SettingsListTile(
-              title: 'Auto Dark Mode',
+              title: 'Follow OS theme',
               trailing: ItemPopupMenuFilter<AutoThemeModeType>(
                 toolTipText: 'Auto Theme Mode',
                 selectedValue: state.themeMode,
@@ -72,6 +72,12 @@ class AppSettingsCard extends StatelessWidget {
               value: state.markReadStories,
               onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.markReadStoriesChanged(newValue: newVal)),
             ),
+            if (state.currentTheme == AppThemeType.dark)
+              SettingsSwitchListTile(
+                title: 'Jet black theme',
+                value: state.useDarkAmoled,
+                onChanged: (newVal) => context.read<SettingsBloc>().add(SettingsEvent.useDarkAmoledChanged(newValue: newVal)),
+              ),
             SettingsListTile(
               title: 'Version',
               trailing: PaddedText(
