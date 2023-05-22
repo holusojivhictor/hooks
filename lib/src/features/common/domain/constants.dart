@@ -17,12 +17,6 @@ abstract class Constants {
 
   static const String wikipediaLink = 'https://en.wikipedia.org/wiki/';
 
-  static const String endUserAgreementLink =
-      'https://github.com/holusojivhictor/hooks/tree/main/assets/eula.md';
-
-  static const String privacyPolicyLink =
-      'https://github.com/holusojivhictor/hooks/tree/main/assets/privacy_policy.md';
-
   static const String wiktionaryLink = 'https://en.wiktionary.org/wiki/';
 
   static const String hackerNewsLogoLink =
