@@ -5,6 +5,7 @@ import 'package:hooks/src/config/injection.dart';
 import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/infrastructure/caches/caches.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
+import 'package:hooks/src/features/common/presentation/splash/animated_splash.dart';
 import 'package:hooks/src/features/item/application/bloc.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:hooks/src/features/item/presentation/item_page.dart';
@@ -14,7 +15,7 @@ import 'package:hooks/src/features/stories/presentation/stories_page.dart';
 import 'package:hooks/src/routing/mobile_scaffold.dart';
 
 enum AppRoute {
-  onboarding,
+  splash,
   items,
   item,
   settings,
@@ -26,17 +27,17 @@ class AppRouter {
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _router = GoRouter(
-    initialLocation: '/',
+    initialLocation: '/splash',
     debugLogDiagnostics: true,
     navigatorKey: _rootNavigatorKey,
     routes: [
       GoRoute(
-        path: '/onboarding',
+        path: '/splash',
         parentNavigatorKey: _rootNavigatorKey,
-        name: AppRoute.onboarding.name,
+        name: AppRoute.splash.name,
         pageBuilder: (context, state) => NoTransitionPage(
           key: state.pageKey,
-          child: const Placeholder(),
+          child: const AnimatedSplash(),
         ),
       ),
       ShellRoute(

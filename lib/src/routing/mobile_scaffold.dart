@@ -5,7 +5,6 @@ import 'package:hooks/src/features/common/application/bloc.dart';
 import 'package:hooks/src/features/common/presentation/colors.dart';
 import 'package:hooks/src/features/common/presentation/navigation_bar/animated_navigation_bar.dart';
 import 'package:hooks/src/features/common/presentation/navigation_bar/navigation_bar_item.dart';
-import 'package:hooks/src/features/stories/application/stories_bloc.dart';
 import 'package:hooks/src/routing/app_router.dart';
 import 'package:hooks/src/utils/utils.dart';
 
@@ -28,7 +27,6 @@ class _MobileScaffoldState extends State<MobileScaffold> {
     super.didChangeDependencies();
     if (_didChangeDependencies) return;
     _didChangeDependencies = true;
-    context.read<StoriesBloc>().add(const StoriesEvent.init());
   }
 
   @override

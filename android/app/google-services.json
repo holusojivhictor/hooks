@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "140973219843",
+    "project_id": "hooks-4e47f",
+    "storage_bucket": "hooks-4e47f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140973219843:android:9425abc2d8b277fd622e36",
+        "android_client_info": {
+          "package_name": "com.morpheus.hooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140973219843-6oa8pv4fm20h6nsreq8hjh3tll7j6sou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSWTkbIyX-Zw5jfTs8FRb9HcROUfA1b7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140973219843-6oa8pv4fm20h6nsreq8hjh3tll7j6sou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

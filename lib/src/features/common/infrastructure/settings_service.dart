@@ -129,8 +129,8 @@ class SettingsService {
     }
 
     if (_prefs.get(_appThemeKey) == null) {
-      _logger.info(runtimeType, 'Setting light as the default theme');
-      appTheme = AppThemeType.light;
+      _logger.info(runtimeType, 'Setting dark as the default theme');
+      appTheme = AppThemeType.dark;
     }
 
     if (_prefs.get(_appLanguageKey) == null) {
@@ -183,8 +183,8 @@ class SettingsService {
     }
 
     if (_prefs.get(_autoThemeModeKey) == null) {
-      _logger.info(runtimeType, 'Auto theme mode set to true as default');
-      autoThemeMode = AutoThemeModeType.on;
+      _logger.info(runtimeType, 'Auto theme mode set to false as default');
+      autoThemeMode = AutoThemeModeType.off;
     }
 
     _initialized = true;
@@ -285,6 +285,52 @@ class SettingsService {
     final key = _getVoteKey(username, id);
     _prefs.remove(key);
   }
+
+  /// Handle liked items
+  List<int> favList({required String of}) {
+    final favList = ((_prefs.getStringList(_getFavKey('')) ?? <String>[])
+      ..addAll(_prefs.getStringList(_getFavKey(of)) ?? <String>[]))
+        .map(int.parse)
+        .toSet()
+        .toList();
+
+    return favList;
+  }
+
+  void addFav({required String username, required int id}) {
+    final key = _getFavKey(username);
+
+    final favListInString = _prefs.getStringList(key) ?? <String>[];
+    final favList = favListInString.map(int.parse).toList()..insert(0, id);
+
+    _prefs.setStringList(
+      key,
+      favList.map((int e) => e.toString()).toSet().toList(),
+    );
+  }
+
+  void removeFav({required String username, required int id}) {
+    final key = _getFavKey(username);
+
+    final favListInString = _prefs.getStringList(key) ?? <String>[];
+    final favList = favListInString.map(int.parse).toList()..remove(id);
+
+    _prefs.setStringList(
+      key,
+      favList.map((int e) => e.toString()).toList(),
+    );
+  }
+
+  void clearAllFavs({required String username}) {
+    final key = _getFavKey(username);
+
+    _prefs.setStringList(
+      key,
+      <String>[],
+    );
+  }
+
+  static String _getFavKey(String username) => 'fav_$username';
 
   String _getVoteKey(String username, int id) => 'vote_$username-$id';
 

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hooks/src/features/auth/application/auth_bloc.dart';
+import 'package:hooks/src/features/auth/application/auth/auth_bloc.dart';
 import 'package:hooks/src/features/auth/infrastructure/auth_service.dart';
 import 'package:hooks/src/features/common/domain/models/models.dart';
 import 'package:hooks/src/features/common/infrastructure/infrastructure.dart';
