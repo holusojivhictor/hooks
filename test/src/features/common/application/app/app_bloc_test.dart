@@ -43,9 +43,13 @@ void main() {
     when(() => settingsService.language).thenReturn(settings.appLanguage);
     when(() => settingsService.autoThemeMode).thenReturn(settings.themeMode);
     when(() => settingsService.appTheme).thenReturn(settings.appTheme);
-    when(() => settingsService.useDarkAmoled).thenReturn(settings.useDarkAmoled);
-    when(() => settingsService.isFirstInstall).thenReturn(settings.isFirstInstall);
-    when(() =>settingsService.appSettings).thenReturn(settings);
+    when(
+      () => settingsService.useDarkAmoled,
+    ).thenReturn(settings.useDarkAmoled);
+    when(
+      () => settingsService.isFirstInstall,
+    ).thenReturn(settings.isFirstInstall);
+    when(() => settingsService.appSettings).thenReturn(settings);
 
     final deviceInfoService = MockDeviceInfoService();
     when(() => deviceInfoService.appName).thenReturn(appName);

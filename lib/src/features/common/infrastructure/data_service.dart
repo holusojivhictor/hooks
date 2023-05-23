@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:hooks/src/features/item/domain/models/models.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
+import 'package:sembast/sembast_memory.dart';
 
 class DataService {
   late Database _database;
@@ -18,6 +20,13 @@ class DataService {
     final dbPath = join(dir.path, 'hooks.db');
     final dbFactory = databaseFactoryIo;
     final db = await dbFactory.openDatabase(dbPath);
+    _database = db;
+  }
+
+  @visibleForTesting
+  Future<void> initForTests() async {
+    final dbFactory  = newDatabaseFactoryMemory();
+    final db = await dbFactory.openDatabase('test.db');
     _database = db;
   }
 
@@ -90,5 +99,9 @@ class DataService {
     await dir.create(recursive: true);
     final dbPath = join(dir.path, 'hooks.db');
     return File(dbPath).delete();
+  }
+
+  Future<void> close() async {
+    await _database.close();
   }
 }
