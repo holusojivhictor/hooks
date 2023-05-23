@@ -32,8 +32,9 @@ void main() {
     blocTest<UserCubit, UserState>(
       'initialize with user',
       setUp: () {
-        when(() => storiesService.fetchUser(id: id))
-            .thenAnswer((_) async => tUser);
+        when(
+          () => storiesService.fetchUser(id: id),
+        ).thenAnswer((_) async => tUser);
       },
       build: () => UserCubit(storiesService),
       act: (cubit) => cubit.init(userId: id),
@@ -44,13 +45,17 @@ void main() {
           status: UserStatus.loaded,
         ),
       ],
+      verify: (_) {
+        verify(() => storiesService.fetchUser(id: id));
+      },
     );
 
     blocTest<UserCubit, UserState>(
       'initialize with no user',
       setUp: () {
-        when(() => storiesService.fetchUser(id: id))
-            .thenAnswer((_) async => null);
+        when(
+          () => storiesService.fetchUser(id: id),
+        ).thenAnswer((_) async => null);
       },
       build: () => UserCubit(storiesService),
       act: (cubit) => cubit.init(userId: id),
@@ -66,8 +71,9 @@ void main() {
     blocTest<UserCubit, UserState>(
       'initialize fails',
       setUp: () {
-        when(() => storiesService.fetchUser(id: id))
-            .thenAnswer((_) async => Exception('oops') as User?);
+        when(
+          () => storiesService.fetchUser(id: id),
+        ).thenAnswer((_) async => Exception('oops') as User?);
       },
       build: () => UserCubit(storiesService),
       act: (cubit) => cubit.init(userId: id),
