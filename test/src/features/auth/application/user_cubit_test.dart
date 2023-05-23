@@ -44,6 +44,9 @@ void main() {
           status: UserStatus.loaded,
         ),
       ],
+      verify: (_) {
+        verify(() => storiesService.fetchUser(id: id));
+      },
     );
 
     blocTest<UserCubit, UserState>(

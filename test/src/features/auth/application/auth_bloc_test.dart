@@ -64,14 +64,12 @@ void main() {
 
     blocTest<AuthBloc, AuthState>(
       'initialize',
-      build: () {
-        return AuthBloc(
-          authService,
-          settingsService,
-          storiesService,
-          dataService,
-        );
-      },
+      build: () => AuthBloc(
+        authService,
+        settingsService,
+        storiesService,
+        dataService,
+      ),
       expect: () => <AuthState>[
         const AuthState.init().copyWith(
           status: AuthStatus.loaded,
@@ -85,21 +83,38 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
+      'agreed to agreement',
+      build: () => AuthBloc(
+        authService,
+        settingsService,
+        storiesService,
+        dataService,
+      ),
+      act: (bloc) => bloc.add(const AuthEvent.agreeToEULAChanged()),
+      skip: 1,
+      expect: () => <AuthState>[
+        const AuthState.init().copyWith(
+          agreedToEULA: true,
+        ),
+      ],
+    );
+
+    blocTest<AuthBloc, AuthState>(
       'sign in',
-      build: () {
+      setUp: () {
         when(
           () => authService.login(
             username: username,
             password: password,
           ),
         ).thenAnswer((_) async => true);
-        return AuthBloc(
-          authService,
-          settingsService,
-          storiesService,
-          dataService,
-        );
       },
+      build: () => AuthBloc(
+        authService,
+        settingsService,
+        storiesService,
+        dataService,
+      ),
       act: (bloc) => bloc
         ..add(
           const AuthEvent.agreeToEULAChanged(),
