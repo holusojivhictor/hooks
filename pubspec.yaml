@@ -29,7 +29,7 @@ dependencies:
   flutter_inappwebview: ^6.0.0-beta.23
   flutter_secure_storage: ^8.0.0
   flutter_slidable: ^3.0.0
-  fluttertoast: ^8.2.1
+  fluttertoast: ^8.2.2
   freezed_annotation: ^2.2.0
   get_it: ^7.6.0
   go_router: ^7.0.2
