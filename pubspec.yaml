@@ -48,7 +48,7 @@ dependencies:
   responsive_builder: ^0.7.0
   rxdart: ^0.27.7
   scrollable_positioned_list: ^0.3.8
-  sembast: ^3.4.4
+  sembast: ^3.4.6+1
   shared_preferences: ^2.1.1
   shimmer: ^3.0.0
   sprintf: ^7.0.0
