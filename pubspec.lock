@@ -901,10 +901,10 @@ packages:
     dependency: "direct main"
     description:
       name: sembast
-      sha256: a784dbcf313ff38a7f57249694c64a6bcf79f704dbec127958459a7737716830
+      sha256: "85ff944434f7b566fdc388be4f85b23e954736b7d6e51f965f4f419d966c15b1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.4"
+    version: "3.5.0+1"
   shared_preferences:
     dependency: "direct main"
     description:
